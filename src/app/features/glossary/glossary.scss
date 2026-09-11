@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+.page-head p {
+  max-width: 62ch;
+}
+.filters {
+  margin-bottom: 1.2rem;
+}
+.filters input {
+  max-width: 300px;
+}
+.filters select {
+  width: auto;
+}
+
+section {
+  margin-bottom: 1.8rem;
+}
+h2 {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.badge {
+  width: 1.7rem;
+  height: 1.7rem;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.85rem;
+}
+.card {
+  padding: 0.2rem 0.6rem;
+}
+.term {
+  font-weight: 650;
+  white-space: nowrap;
+}
+.reading {
+  white-space: nowrap;
+}
+.reading .romaji {
+  display: block;
+  font-style: italic;
+}
+.box {
+  text-align: center;
+  color: var(--text-dim);
+}
+.blurred {
+  filter: blur(5px);
+  transition: filter 0.15s ease;
+}
+.blurred:hover {
+  filter: none;
+}

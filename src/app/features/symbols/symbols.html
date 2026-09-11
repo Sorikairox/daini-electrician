@@ -1,0 +1,80 @@
+<header class="page-head">
+  <h1>Wiring diagram symbols <span class="jp dim">配線図の図記号</span></h1>
+  <p class="dim">
+    The 配線図 section is worth 20 of the 50 marks, and most of it is symbol recognition. Switch on
+    quiz mode to hide the names and test yourself.
+  </p>
+</header>
+
+<div class="row filters">
+  <input
+    type="search"
+    placeholder="Search symbols…"
+    [value]="query()"
+    (input)="query.set($any($event.target).value)"
+    aria-label="Search symbols"
+  />
+  <button class="chip" [class.active]="quizMode()" (click)="toggleQuiz()">
+    {{ quizMode() ? '🙈 Quiz mode on' : '👁 Quiz mode off' }}
+  </button>
+</div>
+
+<div class="row filters">
+  <button class="chip" [class.active]="group() === 'all'" (click)="group.set('all')">All</button>
+  @for (g of groups; track g.id) {
+    <button class="chip" [class.active]="group() === g.id" (click)="group.set(g.id)">
+      {{ g.en }} <span class="jp">{{ g.jp }}</span>
+    </button>
+  }
+</div>
+
+<div class="grid">
+  @for (s of visible(); track s.id) {
+    <div class="card symbol" [class.hidden-mode]="isHidden(s.id)" (click)="reveal(s.id)">
+      <div class="draw" [innerHTML]="s.safeSvg"></div>
+
+      @if (isHidden(s.id)) {
+        <p class="small dim tap">Tap to reveal</p>
+      } @else {
+        <div class="names">
+          <strong class="jp">{{ s.jp }}</strong>
+          <button
+            class="btn ghost sm"
+            type="button"
+            (click)="$event.stopPropagation(); settings.speak(s.jp)"
+          >
+            🔊
+          </button>
+        </div>
+        @if (settings.showKana()) {
+          <div class="jp small dim">{{ s.kana }}</div>
+        }
+        @if (settings.showRomaji()) {
+          <div class="small dim romaji">{{ s.romaji }}</div>
+        }
+        <div class="en">{{ s.en }}</div>
+        <p class="small dim note">{{ s.note }}</p>
+        @if (s.marks) {
+          <table class="data marks">
+            <tbody>
+              @for (m of s.marks; track m.mark) {
+                <tr>
+                  <td class="mark jp">{{ m.mark }}</td>
+                  <td>
+                    <span class="jp">{{ m.jp }}</span
+                    ><br /><span class="small dim">{{ m.meaning }}</span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+    </div>
+  }
+</div>
+
+<p class="small dim disclaimer">
+  These drawings are simplified teaching versions of the JIS C 0303 symbols. The exam paper always
+  prints its own legend — read it before you answer.
+</p>

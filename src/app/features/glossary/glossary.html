@@ -1,0 +1,88 @@
+<header class="page-head">
+  <h1>Glossary <span class="jp dim">用語集</span></h1>
+  <p class="dim">
+    {{ total }} exam terms with reading and romaji. Search in English, in Japanese, or in romaji —
+    “setchi”, “せっち” and “earthing” all find 接地工事.
+  </p>
+</header>
+
+<div class="row filters">
+  <input
+    type="search"
+    placeholder="Search 用語 / reading / English…"
+    [value]="query()"
+    (input)="query.set($any($event.target).value)"
+    aria-label="Search glossary"
+  />
+  <select
+    [value]="category()"
+    (change)="category.set($any($event.target).value)"
+    aria-label="Category"
+  >
+    <option value="all">All categories</option>
+    @for (c of categories; track c.id) {
+      <option [value]="c.id">{{ c.en }}</option>
+    }
+  </select>
+  <button class="chip" [class.active]="hideEnglish()" (click)="hideEnglish.set(!hideEnglish())">
+    {{ hideEnglish() ? 'English hidden' : 'Hide English' }}
+  </button>
+</div>
+
+@if (terms().length === 0) {
+  <p class="dim">No match. Try the romaji spelling without the macron, e.g. “koji”.</p>
+}
+
+@for (group of groups(); track group.category.id) {
+  <section>
+    <h2>
+      <span class="badge" [style.background]="group.category.color">{{ group.category.icon }}</span>
+      {{ group.category.en }}
+      <span class="jp dim small">{{ group.category.jp }}</span>
+    </h2>
+    <div class="table-scroll card">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>日本語</th>
+            <th>Reading</th>
+            <th>English</th>
+            <th>Box</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (t of group.terms; track t.jp) {
+            <tr [id]="t.jp">
+              <td class="jp term">
+                {{ t.jp }}
+                <button
+                  class="btn ghost sm"
+                  type="button"
+                  (click)="settings.speak(t.jp)"
+                  [attr.aria-label]="'Pronounce ' + t.jp"
+                >
+                  🔊
+                </button>
+              </td>
+              <td class="reading">
+                @if (settings.showKana()) {
+                  <span class="jp">{{ t.kana }}</span>
+                }
+                @if (settings.showRomaji()) {
+                  <span class="small dim romaji">{{ t.romaji }}</span>
+                }
+              </td>
+              <td [class.blurred]="hideEnglish()">
+                <strong>{{ t.en }}</strong>
+                @if (t.note) {
+                  <div class="small dim">{{ t.note }}</div>
+                }
+              </td>
+              <td class="box">{{ box(t.jp) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

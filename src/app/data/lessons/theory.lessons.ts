@@ -1,0 +1,426 @@
+import { Lesson } from '../../core/models';
+
+export const THEORY_LESSONS: Lesson[] = [
+  {
+    id: 'ohms-law',
+    category: 'theory',
+    title: 'Ohm’s law and the resistance of a wire',
+    titleJp: 'オームの法則と電線の抵抗',
+    minutes: 8,
+    summary:
+      'The one equation the whole written exam is built on, plus how wire size changes resistance.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'About five of the fifty written questions are pure calculation, and almost all of them start from Ohm’s law. Learn the Japanese words first — the numbers are easy, the vocabulary is what trips up a foreign candidate.',
+      },
+      {
+        kind: 'terms',
+        terms: [
+          {
+            jp: '電圧',
+            kana: 'でんあつ',
+            romaji: 'den’atsu',
+            en: 'voltage [V]',
+            category: 'theory',
+          },
+          {
+            jp: '電流',
+            kana: 'でんりゅう',
+            romaji: 'denryū',
+            en: 'current [A]',
+            category: 'theory',
+          },
+          {
+            jp: '抵抗',
+            kana: 'ていこう',
+            romaji: 'teikō',
+            en: 'resistance [Ω]',
+            category: 'theory',
+          },
+          {
+            jp: '求めよ',
+            kana: 'もとめよ',
+            romaji: 'motomeyo',
+            en: '“find / calculate” — the instruction word in every calculation question',
+            category: 'theory',
+          },
+          {
+            jp: '図のような回路',
+            kana: 'ずのようなかいろ',
+            romaji: 'zu no yō na kairo',
+            en: '“the circuit shown in the figure”',
+            category: 'theory',
+          },
+        ],
+      },
+      {
+        kind: 'formula',
+        latexish: 'V = I × R',
+        caption: 'Ohm’s law オームの法則',
+        where: ['V: voltage [V]', 'I: current [A]', 'R: resistance [Ω]'],
+      },
+      { kind: 'h', text: 'Resistance of a conductor', jp: '電線の抵抗' },
+      {
+        kind: 'p',
+        text: 'A wire’s resistance grows with length and shrinks with cross-sectional area. Japanese solid wire is sold by diameter (直径) in millimetres — 1.6 mm, 2.0 mm, 2.6 mm — while stranded wire is sold by area (断面積) in mm².',
+      },
+      {
+        kind: 'formula',
+        latexish: 'R = ρ L / A ,  A = π D² / 4',
+        caption: 'Resistance from resistivity',
+        where: [
+          'ρ (抵抗率): resistivity',
+          'L (長さ): length [m]',
+          'A (断面積): area [mm²]',
+          'D (直径): diameter [mm]',
+        ],
+      },
+      {
+        kind: 'callout',
+        tone: 'exam',
+        title: 'The trick they always play',
+        text: 'If the diameter doubles, the area becomes four times larger, so the resistance becomes one quarter. Questions are usually phrased as “直径2.6mmの電線と直径1.6mmの電線…” — compare D², never D.',
+      },
+      {
+        kind: 'example',
+        question:
+          'A copper wire has resistance 8 Ω. Another wire of the same material is twice as long and has twice the diameter. What is its resistance?',
+        steps: [
+          'Twice the length → resistance × 2.',
+          'Twice the diameter → area × 4 → resistance ÷ 4.',
+          '8 × 2 ÷ 4 = 4 Ω.',
+        ],
+        answer: '4 Ω',
+      },
+      { kind: 'h', text: 'Reading the answer choices', jp: '選択肢の読み方' },
+      {
+        kind: 'p',
+        text: 'Answer choices are written as 「イ」「ロ」「ハ」「ニ」 (i, ro, ha, ni) instead of A/B/C/D. On the CBT screen they appear in the same order. Practise recognising those four characters so you never mark the wrong box.',
+      },
+    ],
+  },
+  {
+    id: 'series-parallel',
+    category: 'theory',
+    title: 'Series and parallel circuits',
+    titleJp: '直列回路と並列回路',
+    minutes: 10,
+    summary: 'Combining resistances, and the two sentences that tell you which rule to use.',
+    blocks: [
+      {
+        kind: 'terms',
+        terms: [
+          {
+            jp: '直列接続',
+            kana: 'ちょくれつせつぞく',
+            romaji: 'chokuretsu setsuzoku',
+            en: 'series connection',
+            note: 'Current is the same everywhere.',
+            category: 'theory',
+          },
+          {
+            jp: '並列接続',
+            kana: 'へいれつせつぞく',
+            romaji: 'heiretsu setsuzoku',
+            en: 'parallel connection',
+            note: 'Voltage is the same across each branch.',
+            category: 'theory',
+          },
+          {
+            jp: '合成抵抗',
+            kana: 'ごうせいていこう',
+            romaji: 'gōsei teikō',
+            en: 'combined resistance',
+            category: 'theory',
+          },
+          {
+            jp: '端子間',
+            kana: 'たんしかん',
+            romaji: 'tanshikan',
+            en: 'between the terminals',
+            category: 'theory',
+          },
+          {
+            jp: '分圧',
+            kana: 'ぶんあつ',
+            romaji: 'bun’atsu',
+            en: 'voltage division',
+            category: 'theory',
+          },
+        ],
+      },
+      {
+        kind: 'formula',
+        latexish: 'Series:  R = R₁ + R₂ + R₃\nParallel: 1/R = 1/R₁ + 1/R₂  →  R = R₁R₂ / (R₁ + R₂)',
+        caption: 'Combined resistance 合成抵抗',
+      },
+      {
+        kind: 'list',
+        items: [
+          'Two equal resistors in parallel → half of one. Three equal → one third.',
+          'In series the biggest resistor takes the biggest voltage (分圧).',
+          'In parallel the smallest resistor takes the biggest current (分流).',
+        ],
+      },
+      {
+        kind: 'example',
+        question:
+          '図のような回路: a 20 Ω resistor in series with two 20 Ω resistors that are in parallel, across 100 V. Find the current from the source.',
+        steps: [
+          'Parallel pair: 20 × 20 / (20 + 20) = 10 Ω.',
+          'Total: 20 + 10 = 30 Ω.',
+          'I = V / R = 100 / 30 ≈ 3.33 A.',
+        ],
+        answer: 'About 3.3 A',
+      },
+      {
+        kind: 'callout',
+        tone: 'tip',
+        title: 'Simplify from the far end',
+        text: 'Always collapse the network starting from the side furthest from the source, one pair at a time. Write the intermediate value straight onto the exam figure.',
+      },
+    ],
+  },
+  {
+    id: 'power-heat',
+    category: 'theory',
+    title: 'Power, energy and Joule heat',
+    titleJp: '電力・電力量・ジュール熱',
+    minutes: 8,
+    summary: 'Three words that look similar in Japanese and mean very different things.',
+    blocks: [
+      {
+        kind: 'terms',
+        terms: [
+          {
+            jp: '電力',
+            kana: 'でんりょく',
+            romaji: 'denryoku',
+            en: 'power [W] — a rate',
+            category: 'theory',
+          },
+          {
+            jp: '電力量',
+            kana: 'でんりょくりょう',
+            romaji: 'denryokuryō',
+            en: 'energy [Wh / kWh] — power × time',
+            category: 'theory',
+          },
+          {
+            jp: '熱量',
+            kana: 'ねつりょう',
+            romaji: 'netsuryō',
+            en: 'quantity of heat [J / kJ]',
+            category: 'theory',
+          },
+          {
+            jp: '消費電力',
+            kana: 'しょうひでんりょく',
+            romaji: 'shōhi denryoku',
+            en: 'power consumption',
+            category: 'theory',
+          },
+          {
+            jp: '発熱量',
+            kana: 'はつねつりょう',
+            romaji: 'hatsunetsuryō',
+            en: 'heat generated',
+            category: 'theory',
+          },
+        ],
+      },
+      {
+        kind: 'formula',
+        latexish: 'P = V I = I² R = V² / R\nW = P t   [W·s = J]   1 kWh = 3600 kJ',
+        caption: 'Power and energy',
+      },
+      {
+        kind: 'example',
+        question: 'A 100 V, 1 kW heater runs for 30 minutes. How much heat does it produce in kJ?',
+        steps: ['Energy = 1000 W × 1800 s = 1 800 000 J.', '= 1800 kJ.'],
+        answer: '1800 kJ',
+      },
+      {
+        kind: 'callout',
+        tone: 'exam',
+        title: 'Watch the unit in the question',
+        text: '「電力量」 wants Wh or kWh; 「熱量」 wants J or kJ. The numbers differ by a factor of 3600, and both wrong answers are always offered as choices.',
+      },
+      { kind: 'h', text: 'Heat in a wire', jp: '電線の発熱' },
+      {
+        kind: 'p',
+        text: 'Because Q = I²Rt, a loose joint (high R) or an overloaded circuit (high I) heats up fast — this is the physical reason behind the ampacity and joint-quality rules later in the syllabus.',
+      },
+    ],
+  },
+  {
+    id: 'ac-basics',
+    category: 'theory',
+    title: 'AC basics: RMS, reactance, power factor',
+    titleJp: '交流の基礎・実効値・力率',
+    minutes: 12,
+    summary: 'Why “100 V” is an RMS value, and how to handle an R–L circuit.',
+    blocks: [
+      {
+        kind: 'terms',
+        terms: [
+          {
+            jp: '実効値',
+            kana: 'じっこうち',
+            romaji: 'jikkōchi',
+            en: 'RMS value',
+            note: 'Peak ÷ √2. Ordinary “100 V” is RMS.',
+            category: 'theory',
+          },
+          {
+            jp: '最大値',
+            kana: 'さいだいち',
+            romaji: 'saidaichi',
+            en: 'peak value',
+            category: 'theory',
+          },
+          {
+            jp: '周波数',
+            kana: 'しゅうはすう',
+            romaji: 'shūhasū',
+            en: 'frequency [Hz]',
+            note: 'East Japan 50 Hz, West Japan 60 Hz.',
+            category: 'theory',
+          },
+          {
+            jp: 'インピーダンス',
+            kana: 'インピーダンス',
+            romaji: 'inpīdansu',
+            en: 'impedance [Ω]',
+            category: 'theory',
+          },
+          {
+            jp: '力率',
+            kana: 'りきりつ',
+            romaji: 'rikiritsu',
+            en: 'power factor',
+            category: 'theory',
+          },
+        ],
+      },
+      {
+        kind: 'formula',
+        latexish:
+          'V_rms = V_peak / √2 ≈ 0.707 V_peak\nX_L = 2πfL   X_C = 1/(2πfC)\nZ = √(R² + X²)   cosθ = R / Z',
+        caption: 'AC quantities',
+      },
+      {
+        kind: 'table',
+        head: ['R [Ω]', 'X [Ω]', 'Z [Ω]', 'cosθ'],
+        rows: [
+          ['3', '4', '5', '0.6'],
+          ['4', '3', '5', '0.8'],
+          ['6', '8', '10', '0.6'],
+          ['8', '6', '10', '0.8'],
+        ],
+        caption: 'Memorise these four — the exam reuses them constantly.',
+      },
+      {
+        kind: 'example',
+        question:
+          'A coil of R = 8 Ω and X_L = 6 Ω is connected to 100 V. Find the current and the power consumed.',
+        steps: [
+          'Z = √(8² + 6²) = 10 Ω.',
+          'I = 100 / 10 = 10 A.',
+          'cosθ = 8/10 = 0.8 → P = VI cosθ = 100 × 10 × 0.8 = 800 W (or I²R = 10²×8).',
+        ],
+        answer: 'I = 10 A, P = 800 W',
+      },
+      {
+        kind: 'callout',
+        tone: 'tip',
+        title: 'Only resistance consumes power',
+        text: 'Reactance stores and returns energy. P = I²R is often the fastest route to the answer.',
+      },
+    ],
+  },
+  {
+    id: 'three-phase',
+    category: 'theory',
+    title: 'Three-phase circuits',
+    titleJp: '三相交流回路',
+    minutes: 10,
+    summary: 'Star vs delta, where the √3 goes, and three-phase power.',
+    blocks: [
+      {
+        kind: 'terms',
+        terms: [
+          {
+            jp: '星形結線',
+            kana: 'ほしがたけっせん',
+            romaji: 'hoshigata kessen',
+            en: 'star / Y connection',
+            note: 'Also written スター結線.',
+            category: 'theory',
+          },
+          {
+            jp: '三角結線',
+            kana: 'さんかくけっせん',
+            romaji: 'sankaku kessen',
+            en: 'delta connection',
+            note: 'Also written デルタ結線.',
+            category: 'theory',
+          },
+          {
+            jp: '相電圧',
+            kana: 'そうでんあつ',
+            romaji: 'sō den’atsu',
+            en: 'phase voltage',
+            category: 'theory',
+          },
+          {
+            jp: '線間電圧',
+            kana: 'せんかんでんあつ',
+            romaji: 'senkan den’atsu',
+            en: 'line-to-line voltage',
+            category: 'theory',
+          },
+          {
+            jp: '平衡負荷',
+            kana: 'へいこうふか',
+            romaji: 'heikō fuka',
+            en: 'balanced load',
+            category: 'theory',
+          },
+        ],
+      },
+      {
+        kind: 'table',
+        head: ['', 'Voltage', 'Current'],
+        rows: [
+          ['Star 星形 (Y)', 'V_line = √3 × V_phase', 'I_line = I_phase'],
+          ['Delta 三角 (Δ)', 'V_line = V_phase', 'I_line = √3 × I_phase'],
+        ],
+        caption: '√3 ≈ 1.73. In star the √3 is on the voltage; in delta it is on the current.',
+      },
+      {
+        kind: 'formula',
+        latexish: 'P = √3 × V × I × cosθ',
+        caption: 'Three-phase power (line values, either connection)',
+      },
+      {
+        kind: 'example',
+        question:
+          'A balanced star load of 10 Ω per phase is fed from 200 V (line-to-line). Find the line current.',
+        steps: [
+          'Phase voltage = 200 / √3 ≈ 115.5 V.',
+          'Phase current = 115.5 / 10 ≈ 11.5 A.',
+          'In star, line current = phase current ≈ 11.5 A.',
+        ],
+        answer: 'About 11.5 A',
+      },
+      {
+        kind: 'callout',
+        tone: 'exam',
+        title: 'Delta → star conversion shortcut',
+        text: 'Changing a balanced load from delta to star divides the power by three (and vice versa). If a question changes the connection, the answer is usually “1/3” or “3 times”.',
+      },
+    ],
+  },
+];

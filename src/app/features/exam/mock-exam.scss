@@ -1,0 +1,154 @@
+:host {
+  display: block;
+}
+.page-head p {
+  max-width: 64ch;
+}
+.start-card ul {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+}
+.start-card li {
+  margin-bottom: 0.3rem;
+}
+
+.exam-bar {
+  position: sticky;
+  top: 3.2rem;
+  z-index: 10;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.9rem;
+  box-shadow: var(--shadow);
+}
+.clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.1rem;
+}
+.clock.low {
+  color: var(--bad);
+}
+
+.question .q {
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin: 0.3rem 0 0.4rem;
+}
+.options {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.9rem 0;
+}
+.option {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.6rem;
+  text-align: left;
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.option:hover {
+  border-color: var(--accent);
+}
+.option .letter {
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.option.chosen {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.option.correct {
+  border-color: var(--good);
+  background: var(--good-soft);
+}
+.option.wrong {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+
+.explain {
+  border-left: 4px solid var(--bad);
+  background: var(--bad-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.8rem;
+}
+.explain.ok {
+  border-left-color: var(--good);
+  background: var(--good-soft);
+}
+.explain p {
+  margin: 0.25rem 0 0;
+}
+
+.nav {
+  margin-top: 0.4rem;
+}
+
+.grid-nav {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.2rem, 1fr));
+  gap: 0.35rem;
+}
+.cell {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.cell.done {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.cell.flag {
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-color: var(--warn);
+}
+.cell.right {
+  background: var(--good-soft);
+  color: var(--good);
+  border-color: var(--good);
+}
+.cell.wrong {
+  background: var(--bad-soft);
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.cell.here {
+  outline: 2px solid var(--text);
+  outline-offset: 1px;
+}
+
+.result h1 {
+  font-size: 2.6rem;
+  margin-bottom: 0.2rem;
+}
+.result h1.pass {
+  color: var(--good);
+}
+.result h1.fail {
+  color: var(--bad);
+}
+.result {
+  margin-bottom: 1rem;
+}
+.center-row {
+  justify-content: center;
+  margin-top: 0.8rem;
+}

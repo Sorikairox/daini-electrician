@@ -1,0 +1,235 @@
+import { Question } from '../../core/models';
+
+export const EQUIPMENT_QUESTIONS: Question[] = [
+  {
+    id: 'eq-1',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'A 4-pole three-phase induction motor is used at 60 Hz. Its synchronous speed is:',
+    qJp: '極数4の三相誘導電動機を周波数60Hzで使用するときの同期速度は。',
+    options: ['1200 min⁻¹', '1500 min⁻¹', '1800 min⁻¹', '3600 min⁻¹'],
+    answer: 2,
+    explain:
+      'Nₛ = 120f/p = 120 × 60 / 4 = 1800 min⁻¹. The actual speed is slightly lower because of slip (すべり).',
+  },
+  {
+    id: 'eq-2',
+    category: 'equipment',
+    difficulty: 1,
+    q: 'How do you reverse a three-phase induction motor?',
+    options: [
+      'Reverse all three leads',
+      'Interchange any two of the three leads',
+      'Add a capacitor',
+      'Change the frequency',
+    ],
+    answer: 1,
+    explain: '三相のうち2線を入れ替える — swapping two supply leads reverses the rotating field.',
+  },
+  {
+    id: 'eq-3',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Star-delta starting of a motor reduces the starting current to:',
+    options: ['1/√3', '1/2', '1/3', '1/9'],
+    answer: 2,
+    explain:
+      'Both starting current and starting torque fall to one third. スターデルタ始動 is used to limit inrush on larger motors.',
+  },
+  {
+    id: 'eq-4',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'A capacitor fitted in parallel with a motor (進相コンデンサ) is used to:',
+    options: [
+      'Increase the speed',
+      'Improve the power factor',
+      'Reduce the voltage',
+      'Start the motor',
+    ],
+    answer: 1,
+    explain:
+      'It supplies reactive power locally, raising cosθ and lowering the line current and losses.',
+  },
+  {
+    id: 'eq-5',
+    category: 'equipment',
+    difficulty: 1,
+    q: 'Which lamp has the highest luminous efficacy and longest life?',
+    options: ['白熱電球', '腱光灯', 'LED電球', 'ハロゲン電球'],
+    answer: 2,
+    explain: 'LED wins on efficacy and life; incandescent is lowest on both.',
+  },
+  {
+    id: 'eq-6',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'What is the purpose of the ballast (安定器) in a fluorescent fitting?',
+    options: [
+      'To rectify the supply',
+      'To limit the lamp current after striking',
+      'To improve the colour',
+      'To earth the fitting',
+    ],
+    answer: 1,
+    explain:
+      'A fluorescent lamp has a negative resistance characteristic, so the ballast limits the current.',
+  },
+  {
+    id: 'eq-7',
+    category: 'equipment',
+    difficulty: 1,
+    q: 'Which switch lets you control one lamp from two different places?',
+    options: ['単極スイッチ', '3路スイッチ × 2', '4路スイッチ × 1', 'プルスイッチ'],
+    answer: 1,
+    explain:
+      'Two 3-way switches (3路スイッチ) do it. Adding a 4-way switch between them gives a third control point.',
+  },
+  {
+    id: 'eq-8',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'A switch marked ● with the letter H (位置表示灯内蔵) does what?',
+    options: [
+      'Its lamp glows while the load is ON',
+      'Its lamp glows while the switch is OFF',
+      'It is a dimmer',
+      'It is a time switch',
+    ],
+    answer: 1,
+    explain:
+      'H = locator/“firefly” switch: it glows in the dark when the load is off so you can find it. L (確認表示灯) glows when the load is ON.',
+  },
+  {
+    id: 'eq-9',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Which outlet mark means “rainproof”?',
+    options: ['E', 'ET', 'LK', 'WP'],
+    answer: 3,
+    explain: 'WP = 防雨形. E = 接地極付, ET = 接地端子付, LK = 抜け止め形.',
+  },
+  {
+    id: 'eq-10',
+    category: 'equipment',
+    difficulty: 1,
+    q: 'What does VVF stand for in Japanese wiring?',
+    options: [
+      'Round PVC-sheathed cable',
+      'Flat PVC-insulated PVC-sheathed cable',
+      'Cross-linked polyethylene cable',
+      'Single PVC-insulated wire',
+    ],
+    answer: 1,
+    explain:
+      '600Vビニル絶縁ビニルシースケーブル平形 — the flat house-wiring cable. VVR is the round version.',
+  },
+  {
+    id: 'eq-11',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'CD conduit (CD管) may be used:',
+    options: [
+      'Exposed on a wall',
+      'Only embedded directly in concrete',
+      'Underground without protection',
+      'Anywhere PF conduit is allowed',
+    ],
+    answer: 1,
+    explain:
+      'CD conduit is orange and NOT self-extinguishing, so it is restricted to direct burial in concrete. PF conduit is self-extinguishing and may be exposed.',
+  },
+  {
+    id: 'eq-12',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Which conduit designation is threadless steel conduit?',
+    options: ['G', 'C', 'E', 'VE'],
+    answer: 2,
+    explain:
+      'E = ねじなし電線管 (E19, E25…). C = 薄鋼 (thin-wall), G = 厚鋼 (thick-wall), VE = rigid PVC.',
+  },
+  {
+    id: 'eq-13',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Which tool removes burrs from the inside of a cut steel conduit?',
+    options: ['リーマ', 'パイプベンダ', 'ホルソ', '張線器'],
+    answer: 0,
+    explain:
+      'A reamer (リーマ), usually turned with a クリックボール brace, deburrs the cut end so the cable insulation is not damaged.',
+  },
+  {
+    id: 'eq-14',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Which tool makes a round hole in the side of a steel outlet box?',
+    options: ['ノックアウトパンチャ', '羽根ぎり', '呼び線挿入器', 'リングスリーブ用圧着工具'],
+    answer: 0,
+    explain:
+      'A knockout punch (ノックアウトパンチャ). 羽根ぎり bores wood; 呼び線挿入器 pulls wire through conduit.',
+  },
+  {
+    id: 'eq-15',
+    category: 'equipment',
+    difficulty: 1,
+    q: 'Which tool is used to pull conductors through an installed conduit?',
+    options: ['クリックボール', '呼び線挿入器', 'ウォータポンププライヤ', '金切りのこ'],
+    answer: 1,
+    explain: '呼び線挿入器 (fish tape), also called 通線器.',
+  },
+  {
+    id: 'eq-16',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'The handles of a ring-sleeve crimping tool conforming to JIS C 9711 are:',
+    options: ['Red', 'Yellow', 'Blue', 'Green'],
+    answer: 1,
+    explain:
+      'Yellow handles = ring sleeves (リングスリーブ用). Red handles are for bare crimp terminals (裸圧着端子用).',
+  },
+  {
+    id: 'eq-17',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Which device is drawn as ● with the letter A beside it?',
+    options: ['タイムスイッチ', '自動点滅器', '調光器', 'リモコンスイッチ'],
+    answer: 1,
+    explain:
+      'A = 自動点滅器, the photoelectric switch that turns outdoor lights on at dusk. Its rating is written as A(3A).',
+  },
+  {
+    id: 'eq-18',
+    category: 'equipment',
+    difficulty: 1,
+    q: 'What is an 埋込連用取付枠 used for?',
+    options: [
+      'Joining conductors',
+      'Holding 1–3 flush devices in a wall box',
+      'Bending conduit',
+      'Earthing a metal box',
+    ],
+    answer: 1,
+    explain:
+      'The mounting frame holds up to three flush devices. A single device must be fitted in the CENTRE of the frame — doing otherwise is a practical-exam defect.',
+  },
+  {
+    id: 'eq-19',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'Which cable is halogen-free (“eco”) with polyethylene insulation?',
+    options: ['VVF', 'VVR', 'EM-EEF', 'CV'],
+    answer: 2,
+    explain: 'EM-EEF — EM stands for “eco-material”. It produces less harmful smoke in a fire.',
+  },
+  {
+    id: 'eq-20',
+    category: 'equipment',
+    difficulty: 2,
+    q: 'A ring sleeve joining exactly two 1.6 mm conductors must be crimped with which die mark?',
+    options: ['○', '小', '中', '大'],
+    answer: 0,
+    explain:
+      'The ○ die is used ONLY for two 1.6 mm conductors. Three or four 1.6 mm conductors use the 小 die with a 小 sleeve.',
+  },
+];

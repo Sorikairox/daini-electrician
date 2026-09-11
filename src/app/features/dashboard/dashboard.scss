@@ -1,0 +1,99 @@
+:host {
+  display: block;
+}
+.page-head {
+  margin-bottom: 1.4rem;
+}
+.page-head p {
+  max-width: 62ch;
+  margin: 0;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 0.8rem;
+}
+.stat {
+  display: grid;
+  gap: 0.25rem;
+}
+.stat .k {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.stat .bar {
+  margin-top: 0.4rem;
+}
+
+.quick {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.action {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  color: var(--text);
+}
+.action:hover {
+  text-decoration: none;
+  border-color: var(--accent);
+}
+.action .emoji {
+  font-size: 1.5rem;
+}
+.action span span {
+  display: block;
+}
+
+.cats {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+}
+.cat {
+  color: var(--text);
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+.cat:hover {
+  text-decoration: none;
+  border-color: var(--accent);
+}
+.cat-head {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+.badge {
+  width: 2.1rem;
+  height: 2.1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  color: #fff;
+  font-size: 1rem;
+  flex: none;
+}
+.blurb {
+  margin: 0;
+}
+.cat-foot {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.disclaimer {
+  border-top: 1px solid var(--border);
+  padding-top: 0.9rem;
+}

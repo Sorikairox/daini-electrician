@@ -1,0 +1,162 @@
+<header class="page-head">
+  <h1>Wiring diagram trainer <span class="jp dim">複線図トレーナー</span></h1>
+  <p class="dim">
+    Reveal a complete wiring diagram one step at a time, in the order you must draw it yourself:
+    devices, white, black, then the switch legs. Then check the conductor counts and the ring sleeve
+    for every joint.
+  </p>
+</header>
+
+<div class="row filters">
+  @for (c of circuits; track c.id) {
+    <button class="chip" [class.active]="circuitId() === c.id" (click)="select(c.id)">
+      {{ c.title }}
+    </button>
+  }
+</div>
+
+<div class="card">
+  <h2>
+    {{ circuit().title }} <span class="jp dim small">{{ circuit().titleJp }}</span>
+  </h2>
+  <p class="dim">{{ circuit().summary }}</p>
+
+  <div class="steps row">
+    @for (s of stepLabels; track s.step) {
+      <button class="btn sm" [class.primary]="step() === s.step" (click)="setStep(s.step)">
+        {{ s.step }}. {{ s.en }} <span class="jp">{{ s.jp }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="canvas">
+    <svg
+      viewBox="0 0 660 380"
+      role="img"
+      [attr.aria-label]="'Wiring diagram for ' + circuit().title"
+    >
+      <!-- conductors -->
+      @for (e of visibleEdges(); track e.key) {
+        <line
+          [attr.x1]="e.x1"
+          [attr.y1]="e.y1"
+          [attr.x2]="e.x2"
+          [attr.y2]="e.y2"
+          stroke="#8b93a1"
+          stroke-width="6.5"
+          stroke-linecap="round"
+        />
+        <line
+          [attr.x1]="e.x1"
+          [attr.y1]="e.y1"
+          [attr.x2]="e.x2"
+          [attr.y2]="e.y2"
+          [attr.stroke]="e.colour"
+          stroke-width="3.6"
+          stroke-linecap="round"
+        />
+      }
+      <!-- devices -->
+      @for (n of circuit().nodes; track n.id) {
+        <g [attr.transform]="'translate(' + n.x + ',' + n.y + ')'">
+          <circle r="21" fill="#ffffff" stroke="#23262b" stroke-width="2.5" />
+          <text y="7" text-anchor="middle" font-size="19" fill="#23262b">
+            {{ nodeGlyph(n.kind) }}
+          </text>
+          @if (n.badge) {
+            <text class="halo" x="24" y="-14" font-size="11" fill="#5b6879">{{ n.badge }}</text>
+          }
+          <text class="halo" y="40" text-anchor="middle" font-size="12.5" fill="#23262b">
+            {{ n.jp }}
+          </text>
+          <text class="halo" y="55" text-anchor="middle" font-size="11" fill="#5b6879">
+            {{ n.en }}
+          </text>
+        </g>
+      }
+    </svg>
+  </div>
+
+  <div class="legend">
+    <h3>Step {{ step() }} — {{ stepLabels[step() - 1].en }}</h3>
+    @if (legend().length === 0) {
+      <p class="small dim">Place every device exactly where the single-line diagram shows it.</p>
+    } @else {
+      <ul class="small">
+        @for (e of legend(); track e.note) {
+          <li>
+            <span class="swatch" [class]="e.colour"></span>
+            <span class="jp">{{ e.note }}</span>
+          </li>
+        }
+      </ul>
+    }
+    <p class="small dim">{{ circuit().note }}</p>
+  </div>
+</div>
+
+<div class="two">
+  <section class="card">
+    <div class="row head">
+      <h2>Conductors per run <span class="jp dim small">最少電線本数</span></h2>
+      <span class="spacer"></span>
+      <button class="btn sm" (click)="showAnswers.set(!showAnswers())">
+        {{ showAnswers() ? 'Hide answers' : 'Show answers' }}
+      </button>
+    </div>
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Run</th>
+          <th>Conductors</th>
+          <th>What they are</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of circuit().runs; track r.from + r.to) {
+          <tr>
+            <td>{{ r.from }} → {{ r.to }}</td>
+            <td class="count" [class.hidden-answer]="!showAnswers()">{{ r.count }}</td>
+            <td class="small dim" [class.hidden-answer]="!showAnswers()">{{ r.note }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Joints in the box <span class="jp dim small">リングスリーブの選定</span></h2>
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Joint</th>
+          <th>Wires</th>
+          <th>Sleeve</th>
+          <th>Mark</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (j of circuit().joints; track j.id) {
+          <tr>
+            <td>
+              <span class="jp">{{ j.jp }}</span
+              ><br /><span class="small dim">{{ j.en }}</span>
+            </td>
+            <td [class.hidden-answer]="!showAnswers()">{{ j.conductors }}</td>
+            <td class="jp" [class.hidden-answer]="!showAnswers()">{{ j.sleeve }}</td>
+            <td class="jp mark" [class.hidden-answer]="!showAnswers()">{{ j.mark }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <p class="small dim">
+      Sizing rule: 1.6 mm counts as 1 point, 2.0 mm as 2. Two points → ○, three or four → 小, five
+      to ten → 中.
+    </p>
+  </section>
+</div>
+
+<p class="small dim">
+  Method explained in full:
+  <a [routerLink]="['/lessons', 'fukusenzu']">Single-line to complete wiring diagram →</a>
+</p>

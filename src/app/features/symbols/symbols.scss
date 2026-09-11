@@ -1,0 +1,74 @@
+:host {
+  display: block;
+}
+.page-head p {
+  max-width: 62ch;
+}
+.filters {
+  margin-bottom: 0.8rem;
+}
+.filters input {
+  max-width: 320px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.8rem;
+}
+.symbol {
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+}
+.symbol.hidden-mode {
+  cursor: pointer;
+}
+.draw {
+  display: grid;
+  place-items: center;
+  padding: 0.4rem 0;
+  margin-bottom: 0.4rem;
+}
+.draw ::ng-deep svg {
+  width: 84px;
+  height: 84px;
+  color: var(--text);
+}
+.names {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.names strong {
+  font-size: 1.02rem;
+}
+.romaji {
+  font-style: italic;
+}
+.en {
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+.note {
+  margin: 0.3rem 0 0;
+}
+.tap {
+  text-align: center;
+  margin: 0;
+}
+.marks {
+  margin-top: 0.6rem;
+}
+.marks td {
+  padding: 0.3rem 0.4rem;
+}
+.mark {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.disclaimer {
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.8rem;
+}

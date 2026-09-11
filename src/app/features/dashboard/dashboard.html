@@ -1,0 +1,135 @@
+<header class="page-head">
+  <div>
+    <h1>Become a 第二種電気工事士</h1>
+    <p class="dim">
+      Everything for Japan's Second-Class Electrician licence, explained in English with the
+      Japanese words the exam actually uses. Works completely offline — nothing you do here leaves
+      your browser.
+    </p>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="card stat">
+    <span class="k">{{ progress.lessonsRead().size }}/{{ totalLessons }}</span>
+    <span class="dim small">Lessons read</span>
+    <div class="bar"><i [style.width.%]="progress.lessonProgress() * 100"></i></div>
+  </div>
+  <div class="card stat">
+    <span class="k">{{ progress.masteredCount() }}/{{ totalTerms }}</span>
+    <span class="dim small">Terms mastered</span>
+    <div class="bar"><i [style.width.%]="(progress.masteredCount() / totalTerms) * 100"></i></div>
+  </div>
+  <div class="card stat">
+    <span class="k">{{ progress.accuracy() * 100 | number: '1.0-0' }}%</span>
+    <span class="dim small"
+      >Quiz accuracy ({{ progress.answeredCount() }}/{{ totalQuestions }} seen)</span
+    >
+    <div class="bar"><i [style.width.%]="progress.accuracy() * 100"></i></div>
+  </div>
+  <div class="card stat">
+    <span class="k">🔥 {{ progress.streak() }}</span>
+    <span class="dim small">Day streak (best {{ progress.bestStreak() }})</span>
+    <div class="bar"><i [style.width.%]="progress.studiedToday() ? 100 : 0"></i></div>
+  </div>
+</section>
+
+<section class="quick">
+  <a class="card action" routerLink="/flashcards">
+    <span class="emoji">🃏</span>
+    <span>
+      <strong>Review vocabulary</strong>
+      <span class="dim small">{{ progress.dueCount() }} cards due — 5 minutes is enough</span>
+    </span>
+  </a>
+  @if (nextUp(); as lesson) {
+    <a class="card action" [routerLink]="['/lessons', lesson.id]">
+      <span class="emoji">📘</span>
+      <span>
+        <strong>Next lesson: {{ lesson.title }}</strong>
+        <span class="dim small jp">{{ lesson.titleJp }} · {{ lesson.minutes }} min</span>
+      </span>
+    </a>
+  }
+  <a class="card action" routerLink="/trainer">
+    <span class="emoji">🔀</span>
+    <span>
+      <strong>Draw a 複線図 step by step</strong>
+      <span class="dim small"
+        >The skill behind 20 of the 50 written marks — and the practical exam</span
+      >
+    </span>
+  </a>
+  <a class="card action" routerLink="/exam">
+    <span class="emoji">⏱️</span>
+    <span>
+      <strong>Take a 50-question mock exam</strong>
+      <span class="dim small"
+        >Best so far: {{ progress.bestMock() }}/50 — pass mark is about 30</span
+      >
+    </span>
+  </a>
+</section>
+
+<section>
+  <h2>Syllabus</h2>
+  <div class="cats">
+    @for (s of categoryStats(); track s.category.id) {
+      <a class="card cat" [routerLink]="['/lessons']" [queryParams]="{ category: s.category.id }">
+        <div class="cat-head">
+          <span class="badge" [style.background]="s.category.color">{{ s.category.icon }}</span>
+          <div>
+            <strong>{{ s.category.en }}</strong>
+            <div class="jp dim small">{{ s.category.jp }}</div>
+          </div>
+        </div>
+        <p class="small dim blurb">{{ s.category.blurb }}</p>
+        <div class="cat-foot small dim">
+          <span class="tag">{{ s.category.questionShare }}</span>
+          <span>{{ s.read }}/{{ s.total }} lessons</span>
+          @if (s.accuracy !== null) {
+            <span>· {{ s.accuracy * 100 | number: '1.0-0' }}% correct</span>
+          }
+        </div>
+        <div class="bar">
+          <i [style.width.%]="s.pct * 100" [style.background]="s.category.color"></i>
+        </div>
+      </a>
+    }
+  </div>
+</section>
+
+@if (recent().length > 0) {
+  <section>
+    <h2>Recent quiz attempts</h2>
+    <div class="card">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Mode</th>
+            <th>Topic</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (a of recent(); track a.at) {
+            <tr>
+              <td>{{ date(a.at) }}</td>
+              <td>{{ a.mode }}</td>
+              <td>{{ a.category }}</td>
+              <td>
+                <strong>{{ a.correct }}/{{ a.total }}</strong>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}
+
+<p class="small dim disclaimer">
+  Study material only. Exam dates, fees and the official defect criteria change every year — confirm
+  them with the 電気技術者試験センター (ECEE) before you apply.
+</p>

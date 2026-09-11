@@ -1,0 +1,123 @@
+<header class="page-head">
+  <h1>Flashcards <span class="jp dim">単語カード</span></h1>
+  <p class="dim">
+    Spaced repetition over all {{ totalTerms }} exam terms. Cards you get right move up a box and
+    come back later; cards you miss come straight back.
+  </p>
+</header>
+
+<div class="row filters">
+  <select
+    [value]="category()"
+    (change)="setCategory($any($event.target).value)"
+    aria-label="Category"
+  >
+    <option value="all">All categories</option>
+    @for (c of categories; track c.id) {
+      <option [value]="c.id">{{ c.en }}</option>
+    }
+  </select>
+  <button
+    class="chip"
+    [class.active]="direction() === 'jp-en'"
+    (click)="direction.set('jp-en'); revealed.set(false)"
+  >
+    日本語 → English
+  </button>
+  <button
+    class="chip"
+    [class.active]="direction() === 'en-jp'"
+    (click)="direction.set('en-jp'); revealed.set(false)"
+  >
+    English → 日本語
+  </button>
+  <button class="chip" [class.active]="dueOnly()" (click)="dueOnly.set(!dueOnly())">
+    Due only ({{ progress.dueCount() }})
+  </button>
+</div>
+
+@if (current(); as term) {
+  <div class="card flashcard" (click)="revealed.set(true)">
+    @if (direction() === 'jp-en') {
+      <div class="front jp big">{{ term.jp }}</div>
+      @if (revealed()) {
+        <div class="back">
+          @if (settings.showKana()) {
+            <div class="jp reading">{{ term.kana }}</div>
+          }
+          @if (settings.showRomaji()) {
+            <div class="romaji dim">{{ term.romaji }}</div>
+          }
+          <div class="meaning">{{ term.en }}</div>
+          @if (term.note) {
+            <p class="small dim">{{ term.note }}</p>
+          }
+        </div>
+      } @else {
+        <p class="dim small hint">Tap to reveal</p>
+      }
+    } @else {
+      <div class="front en-front">{{ term.en }}</div>
+      @if (revealed()) {
+        <div class="back">
+          <div class="jp big">{{ term.jp }}</div>
+          @if (settings.showKana()) {
+            <div class="jp reading">{{ term.kana }}</div>
+          }
+          @if (settings.showRomaji()) {
+            <div class="romaji dim">{{ term.romaji }}</div>
+          }
+          @if (term.note) {
+            <p class="small dim">{{ term.note }}</p>
+          }
+        </div>
+      } @else {
+        <p class="dim small hint">Tap to reveal</p>
+      }
+    }
+
+    <button
+      class="btn ghost sm speak"
+      type="button"
+      (click)="$event.stopPropagation(); settings.speak(term.jp)"
+    >
+      🔊 Listen
+    </button>
+  </div>
+
+  <div class="row actions">
+    @if (revealed()) {
+      <button class="btn bad-btn" type="button" (click)="grade(false)">
+        Again <span class="small dim">(box 1)</span>
+      </button>
+      <button class="btn primary" type="button" (click)="grade(true)">I knew it →</button>
+    } @else {
+      <button class="btn primary" type="button" (click)="revealed.set(true)">Reveal</button>
+    }
+    <button class="btn ghost" type="button" (click)="skip()">Shuffle</button>
+    <span class="spacer"></span>
+    <span class="small dim">{{ sessionDone() }} done this session · {{ deck().length }} left</span>
+  </div>
+} @else {
+  <div class="card empty">
+    <h2>Nothing due right now 🎉</h2>
+    <p class="dim">
+      Every card in this selection is scheduled for later. Turn off “Due only” to keep drilling, or
+      pick another category.
+    </p>
+    <button class="btn" type="button" (click)="dueOnly.set(false)">Study anyway</button>
+  </div>
+}
+
+<section class="boxes">
+  <h2>Leitner boxes</h2>
+  <div class="box-row">
+    @for (count of boxCounts(); track $index) {
+      <div class="card box">
+        <span class="k">{{ count }}</span>
+        <span class="small dim">Box {{ $index + 1 }}</span>
+        <span class="small dim">{{ intervals[$index] }}</span>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,127 @@
+@if (questions() === null) {
+  <header class="page-head">
+    <h1>Practice quiz <span class="jp dim">練習問題</span></h1>
+    <p class="dim">
+      {{ QUESTIONS.length }} questions with an English explanation for every answer. Options are
+      labelled イ・ロ・ハ・ニ exactly as they are on the real paper.
+    </p>
+  </header>
+
+  <div class="card setup stack">
+    <label>
+      <span class="small dim">Topic</span>
+      <select [value]="category()" (change)="category.set($any($event.target).value)">
+        <option value="all">All topics</option>
+        @for (c of categories; track c.id) {
+          <option [value]="c.id">{{ c.en }} — {{ c.jp }}</option>
+        }
+      </select>
+    </label>
+
+    <div>
+      <span class="small dim">Number of questions</span>
+      <div class="row">
+        @for (n of [5, 10, 20, 30]; track n) {
+          <button class="chip" [class.active]="length() === n" (click)="length.set(n)">
+            {{ n }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <label class="row check">
+      <input
+        type="checkbox"
+        [checked]="weakOnly()"
+        (change)="weakOnly.set($any($event.target).checked)"
+      />
+      <span>Only questions I have got wrong before ({{ progress.weakQuestionIds().length }})</span>
+    </label>
+
+    <div class="row">
+      <button class="btn primary" type="button" [disabled]="available() === 0" (click)="start()">
+        Start — {{ available() }} available
+      </button>
+      <a class="btn" routerLink="/exam">Full 50-question mock exam →</a>
+    </div>
+  </div>
+}
+
+@if (questions() !== null && !finished()) {
+  @if (current(); as q) {
+    <div class="progress-row row small dim">
+      <span>Question {{ index() + 1 }} / {{ questions()!.length }}</span>
+      <span class="spacer"></span>
+      <span>Score {{ score() }}</span>
+    </div>
+    <div class="bar"><i [style.width.%]="(index() / questions()!.length) * 100"></i></div>
+
+    <div class="card question">
+      <p class="q">{{ q.q }}</p>
+      @if (q.qJp) {
+        <p class="jp dim qjp">{{ q.qJp }}</p>
+      }
+
+      <div class="options">
+        @for (option of q.options; track $index) {
+          <button
+            class="option"
+            type="button"
+            [class.correct]="chosen() !== null && $index === q.answer"
+            [class.wrong]="chosen() === $index && $index !== q.answer"
+            [disabled]="chosen() !== null"
+            (click)="choose($index)"
+          >
+            <span class="letter jp">{{ letter($index) }}</span>
+            <span class="jp">{{ option }}</span>
+          </button>
+        }
+      </div>
+
+      @if (chosen() !== null) {
+        <div class="explain" [class.ok]="chosen() === q.answer">
+          <strong>{{
+            chosen() === q.answer ? '正解 — correct' : '不正解 — the answer is ' + letter(q.answer)
+          }}</strong>
+          <p class="jp">{{ q.explain }}</p>
+        </div>
+        <button class="btn primary" type="button" (click)="next()">
+          {{ index() + 1 >= questions()!.length ? 'See results' : 'Next question' }}
+        </button>
+      }
+    </div>
+  }
+}
+
+@if (finished()) {
+  <div class="card result center">
+    <h1>{{ score() }} / {{ questions()!.length }}</h1>
+    <p class="dim">
+      {{
+        score() / questions()!.length >= 0.6
+          ? 'Above the 60% pass line. Keep going.'
+          : 'Below the 60% pass line — review the explanations above.'
+      }}
+    </p>
+    <div class="row center-row">
+      <button class="btn primary" type="button" (click)="restart()">Another quiz</button>
+      <a class="btn" routerLink="/lessons">Back to lessons</a>
+    </div>
+  </div>
+
+  <section class="review">
+    <h2>Review</h2>
+    @for (q of questions(); track q.id; let i = $index) {
+      <div class="card review-item" [class.bad]="answers()[i] !== q.answer">
+        <div class="small dim">
+          {{ i + 1 }}. {{ answers()[i] === q.answer ? '✓ correct' : '✗ wrong' }}
+        </div>
+        <p class="q">{{ q.q }}</p>
+        <p class="jp">
+          <strong>{{ letter(q.answer) }}</strong> {{ q.options[q.answer] }}
+        </p>
+        <p class="small dim jp">{{ q.explain }}</p>
+      </div>
+    }
+  </section>
+}

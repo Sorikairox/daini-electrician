@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+.page-head p {
+  max-width: 62ch;
+}
+.setup label {
+  display: grid;
+  gap: 0.3rem;
+}
+.setup .check {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.setup .check input {
+  width: auto;
+}
+.setup select {
+  width: auto;
+  min-width: 260px;
+  max-width: 100%;
+}
+
+.progress-row {
+  margin-bottom: 0.35rem;
+}
+.question {
+  margin-top: 0.9rem;
+}
+.q {
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.qjp {
+  margin-bottom: 0.9rem;
+}
+
+.options {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.option {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.option:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+.option:disabled {
+  cursor: default;
+}
+.option .letter {
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.option.correct {
+  border-color: var(--good);
+  background: var(--good-soft);
+}
+.option.correct .letter {
+  color: var(--good);
+}
+.option.wrong {
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+.option.wrong .letter {
+  color: var(--bad);
+}
+
+.explain {
+  border-left: 4px solid var(--bad);
+  background: var(--bad-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1rem;
+}
+.explain.ok {
+  border-left-color: var(--good);
+  background: var(--good-soft);
+}
+.explain p {
+  margin: 0.3rem 0 0;
+}
+
+.result h1 {
+  font-size: 2.6rem;
+  margin-bottom: 0.2rem;
+}
+.center-row {
+  justify-content: center;
+}
+.review {
+  margin-top: 1.6rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.review-item {
+  border-left: 4px solid var(--good);
+}
+.review-item.bad {
+  border-left-color: var(--bad);
+}
+.review-item p {
+  margin: 0.25rem 0;
+}

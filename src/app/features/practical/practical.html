@@ -1,0 +1,199 @@
+<header class="page-head">
+  <h1>Practical exam <span class="jp dim">技能試験</span></h1>
+  <p class="dim">
+    40 minutes, one of 13 published tasks, and a single defect fails you. This page covers the
+    method for converting the drawing, the recurring task types, the tool kit and the defect list.
+  </p>
+</header>
+
+<div class="row filters">
+  @for (t of tabs; track t.id) {
+    <button class="chip" [class.active]="tab() === t.id" (click)="tab.set(t.id)">
+      {{ t.label }} <span class="jp">{{ t.jp }}</span>
+    </button>
+  }
+</div>
+
+@switch (tab()) {
+  @case ('method') {
+    <section class="card">
+      <h2>
+        Single-line → complete wiring diagram <span class="jp dim small">単線図から複線図へ</span>
+      </h2>
+      <p class="dim">
+        Do these five steps in this order, every single time. The same method answers the “minimum
+        number of conductors” questions on the written paper.
+      </p>
+      <ol class="steps">
+        @for (s of steps; track s.step) {
+          <li>
+            <div class="row step-head">
+              <strong>{{ s.en }}</strong>
+              <span class="jp dim">{{ s.jp }}</span>
+              <button class="btn ghost sm" type="button" (click)="settings.speak(s.jp)">🔊</button>
+            </div>
+            <p class="jp">{{ s.detail }}</p>
+          </li>
+        }
+      </ol>
+      <div class="callout">
+        <strong>白は電球とコンセントへ、黒はスイッチとコンセントへ</strong>
+        <p class="small">
+          “White goes to lamps and outlets; black goes to switches and outlets.” Say it out loud
+          before you draw anything.
+        </p>
+      </div>
+      <p class="small dim">
+        Full explanation with worked examples:
+        <a [routerLink]="['/lessons', 'fukusenzu']">Single-line to complete wiring diagram →</a>
+        · <a routerLink="/trainer">Practise on the diagram trainer →</a>
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Time plan <span class="jp dim small">時間配分</span></h2>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Minutes</th>
+              <th>Task</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0–5</td>
+              <td>Check materials, draw the 複線図</td>
+            </tr>
+            <tr>
+              <td>5–10</td>
+              <td>Cut and strip every cable</td>
+            </tr>
+            <tr>
+              <td>10–30</td>
+              <td>Terminate the devices</td>
+            </tr>
+            <tr>
+              <td>30–37</td>
+              <td>Make the joints in the boxes</td>
+            </tr>
+            <tr>
+              <td>37–40</td>
+              <td>Inspect against the defect list</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  @case ('problems') {
+    <div class="callout warn">
+      <strong>⚠️ Check the official list for your year</strong>
+      <p class="small">
+        The examination centre publishes 13 candidate problems before each sitting and renews them
+        every year. These are the recurring archetypes that the published set is built from — use
+        them to plan your practice, then work from the official PDF once it is out.
+      </p>
+    </div>
+
+    <div class="problems">
+      @for (p of problems; track p.no) {
+        <div class="card problem" (click)="toggle(p.no)">
+          <div class="row head">
+            <span class="no">{{ p.no }}</span>
+            <div>
+              <strong>{{ p.title }}</strong>
+              <div class="jp dim small">{{ p.titleJp }}</div>
+            </div>
+            <span class="spacer"></span>
+            <span class="dim">{{ open() === p.no ? '−' : '+' }}</span>
+          </div>
+          @if (open() === p.no) {
+            <div class="detail">
+              <p>{{ p.circuit }}</p>
+              <div class="row devices">
+                @for (d of p.devices; track d) {
+                  <span class="tag jp">{{ d }}</span>
+                }
+              </div>
+              <h4>Traps</h4>
+              <ul class="small">
+                @for (t of p.traps; track t) {
+                  <li class="jp">{{ t }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('tools') {
+    <div class="table-scroll card">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>工具</th>
+            <th>Reading</th>
+            <th>English</th>
+            <th>Use</th>
+            <th>Kit</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (t of tools; track t.id) {
+            <tr>
+              <td class="jp term">
+                {{ t.jp }}
+                <button class="btn ghost sm" type="button" (click)="settings.speak(t.jp)">
+                  🔊
+                </button>
+              </td>
+              <td class="small dim romaji">{{ t.romaji }}</td>
+              <td>{{ t.en }}</td>
+              <td class="small">{{ t.use }}</td>
+              <td>
+                @if (t.required) {
+                  <span class="tag req">must bring</span>
+                } @else {
+                  <span class="tag">optional</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="small dim">
+      Confirm the permitted tool list in the application booklet for your sitting — power tools are
+      restricted.
+    </p>
+  }
+
+  @case ('defects') {
+    <div class="callout warn">
+      <strong>⚠️ One defect = fail</strong>
+      <p class="small">
+        Grouped from the official 「欠陥の判断基準」. Millimetre limits taught for practice are in
+        the lessons; the official PDF for your sitting is the authority.
+      </p>
+    </div>
+    <div class="defects">
+      @for (d of defects; track d.id) {
+        <div class="card defect">
+          <div class="row head">
+            <strong class="jp">{{ d.jp }}</strong>
+            <span class="dim small">{{ d.en }}</span>
+          </div>
+          <ul class="small">
+            @for (item of d.items; track item) {
+              <li class="jp">{{ item }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  }
+}

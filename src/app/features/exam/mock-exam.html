@@ -1,0 +1,140 @@
+@if (questions() === null) {
+  <header class="page-head">
+    <h1>Mock exam <span class="jp dim">模擬試験</span></h1>
+    <p class="dim">
+      50 questions in 120 minutes, mixed in the same proportions as the real 学科試験: 5 theory, 6
+      wiring design, 7 equipment, 5 installation, 4 inspection, 20 wiring diagram, 3 law. You need
+      about {{ passMark }} correct to pass.
+    </p>
+  </header>
+
+  <div class="card start-card">
+    <ul>
+      <li>Answers are not revealed until you submit — just like the real thing.</li>
+      <li>Flag a question with the 🚩 button and come back to it from the grid.</li>
+      <li>The paper is auto-submitted when the clock reaches zero.</li>
+    </ul>
+    <div class="row">
+      <button class="btn primary" type="button" (click)="start()">Start the mock exam</button>
+      <a class="btn" routerLink="/quiz">Short practice quiz instead</a>
+    </div>
+    @if (progress.bestMock() > 0) {
+      <p class="small dim">Your best so far: {{ progress.bestMock() }} / 50.</p>
+    }
+  </div>
+}
+
+@if (questions() !== null) {
+  <div class="exam-bar row">
+    <strong class="clock" [class.low]="secondsLeft() < 600">⏱ {{ clock() }}</strong>
+    <span class="small dim">{{ answeredCount() }} / {{ questions()!.length }} answered</span>
+    <span class="spacer"></span>
+    @if (!submitted()) {
+      <button class="btn sm" type="button" (click)="toggleFlag()">
+        {{ flags().has(index()) ? '🚩 Flagged' : '🚩 Flag' }}
+      </button>
+      <button class="btn primary sm" type="button" (click)="submit()">Submit</button>
+    } @else {
+      <button class="btn sm" type="button" (click)="quit()">Finish</button>
+    }
+  </div>
+
+  @if (submitted()) {
+    <div class="card result center">
+      <h1 [class.pass]="score() >= passMark" [class.fail]="score() < passMark">
+        {{ score() }} / {{ questions()!.length }}
+      </h1>
+      <p class="dim">
+        {{
+          score() >= passMark
+            ? '合格ライン突破 — above the usual pass mark.'
+            : 'Below the usual pass mark of ' + passMark + '. Work through the wrong answers below.'
+        }}
+      </p>
+      <div class="table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>日本語</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of byCategory(); track c.name) {
+              <tr>
+                <td>{{ c.name }}</td>
+                <td class="jp">{{ c.jp }}</td>
+                <td>{{ c.right }} / {{ c.total }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="row center-row">
+        <button class="btn primary" type="button" (click)="start()">Try another paper</button>
+      </div>
+    </div>
+  }
+
+  @if (current(); as q) {
+    <div class="card question">
+      <div class="small dim">Question {{ index() + 1 }} / {{ questions()!.length }}</div>
+      <p class="q">{{ q.q }}</p>
+      @if (q.qJp) {
+        <p class="jp dim">{{ q.qJp }}</p>
+      }
+
+      <div class="options">
+        @for (option of q.options; track $index) {
+          <button
+            class="option"
+            type="button"
+            [class.chosen]="answers()[index()] === $index && !submitted()"
+            [class.correct]="submitted() && $index === q.answer"
+            [class.wrong]="submitted() && answers()[index()] === $index && $index !== q.answer"
+            (click)="choose($index)"
+          >
+            <span class="letter jp">{{ letter($index) }}</span>
+            <span class="jp">{{ option }}</span>
+          </button>
+        }
+      </div>
+
+      @if (submitted()) {
+        <div class="explain" [class.ok]="answers()[index()] === q.answer">
+          <strong>Answer: {{ letter(q.answer) }}</strong>
+          <p class="jp">{{ q.explain }}</p>
+        </div>
+      }
+
+      <div class="row nav">
+        <button class="btn" type="button" [disabled]="index() === 0" (click)="move(-1)">
+          ← Previous
+        </button>
+        <button
+          class="btn"
+          type="button"
+          [disabled]="index() + 1 >= questions()!.length"
+          (click)="move(1)"
+        >
+          Next →
+        </button>
+      </div>
+    </div>
+  }
+
+  <div class="grid-nav card">
+    @for (q of questions(); track q.id; let i = $index) {
+      <button
+        type="button"
+        class="cell"
+        [class]="statusOf(i)"
+        [class.here]="i === index()"
+        (click)="goTo(i)"
+      >
+        {{ i + 1 }}
+      </button>
+    }
+  </div>
+}
