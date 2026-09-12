@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { RouterLink } from '@angular/router';
 import { SettingsStore } from '../../core/settings.store';
 import { CANDIDATE_ARCHETYPES, DEFECTS, FUKUSENZU_STEPS, TOOLS } from '../../data/practical.data';
+import { VocabBlockComponent } from '../../shared/vocab-block';
 
 type Tab = 'method' | 'problems' | 'tools' | 'defects';
 
 @Component({
   selector: 'app-practical',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, VocabBlockComponent],
   templateUrl: './practical.html',
   styleUrl: './practical.scss',
 })

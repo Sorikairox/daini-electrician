@@ -83,7 +83,7 @@
           <strong>{{
             chosen() === q.answer ? '正解 — correct' : '不正解 — the answer is ' + letter(q.answer)
           }}</strong>
-          <p class="jp">{{ q.explain }}</p>
+          <app-vocab-block class="jp" [text]="q.explain" />
         </div>
         <button class="btn primary" type="button" (click)="next()">
           {{ index() + 1 >= questions()!.length ? 'See results' : 'Next question' }}
@@ -120,7 +120,7 @@
         <p class="jp">
           <strong>{{ letter(q.answer) }}</strong> {{ q.options[q.answer] }}
         </p>
-        <p class="small dim jp">{{ q.explain }}</p>
+        <app-vocab-block class="small dim jp" [text]="q.explain" />
       </div>
     }
   </section>

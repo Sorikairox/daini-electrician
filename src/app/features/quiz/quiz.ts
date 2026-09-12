@@ -14,11 +14,12 @@ import { CATEGORIES } from '../../data/categories.data';
 import { QUESTIONS } from '../../data/questions.data';
 import { CategoryId, Question } from '../../core/models';
 import { pickQuestions } from '../../core/quiz.util';
+import { VocabBlockComponent } from '../../shared/vocab-block';
 
 @Component({
   selector: 'app-quiz',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, VocabBlockComponent],
   templateUrl: './quiz.html',
   styleUrl: './quiz.scss',
 })

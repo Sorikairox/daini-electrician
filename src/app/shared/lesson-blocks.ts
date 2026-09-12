@@ -1,23 +1,34 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Block } from '../core/models';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { Block, Term } from '../core/models';
 import { JpTermComponent } from './jp-term';
 import { FormulaViewComponent } from './formula-view';
 import { WorkedExampleComponent } from './worked-example';
+import { VocabTextComponent } from './vocab-text';
 
 /** Renders the structured content blocks of a lesson. */
 @Component({
   selector: 'app-lesson-blocks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JpTermComponent, FormulaViewComponent, WorkedExampleComponent],
+  imports: [JpTermComponent, FormulaViewComponent, WorkedExampleComponent, VocabTextComponent],
   template: `
-    @for (block of blocks(); track $index) {
+    @for (block of blocks(); track $index; let blockIndex = $index) {
       @switch (block.kind) {
         @case ('p') {
-          <p>{{ block.text }}</p>
+          <p>
+            <app-vocab-text
+              [text]="block.text"
+              [active]="activeJp()"
+              (pick)="onPick($event, blockIndex)"
+            />
+          </p>
         }
         @case ('h') {
           <h3 class="block-h">
-            {{ block.text }}
+            <app-vocab-text
+              [text]="block.text"
+              [active]="activeJp()"
+              (pick)="onPick($event, blockIndex)"
+            />
             @if (block.jp) {
               <span class="jp dim">{{ block.jp }}</span>
             }
@@ -27,16 +38,24 @@ import { WorkedExampleComponent } from './worked-example';
           @if (block.ordered) {
             <ol>
               @for (item of block.items; track $index) {
-                <li>
-                  <span class="jp">{{ item }}</span>
+                <li class="jp">
+                  <app-vocab-text
+                    [text]="item"
+                    [active]="activeJp()"
+                    (pick)="onPick($event, blockIndex)"
+                  />
                 </li>
               }
             </ol>
           } @else {
             <ul>
               @for (item of block.items; track $index) {
-                <li>
-                  <span class="jp">{{ item }}</span>
+                <li class="jp">
+                  <app-vocab-text
+                    [text]="item"
+                    [active]="activeJp()"
+                    (pick)="onPick($event, blockIndex)"
+                  />
                 </li>
               }
             </ul>
@@ -65,7 +84,13 @@ import { WorkedExampleComponent } from './worked-example';
               <thead>
                 <tr>
                   @for (h of block.head; track $index) {
-                    <th class="jp">{{ h }}</th>
+                    <th class="jp">
+                      <app-vocab-text
+                        [text]="h"
+                        [active]="activeJp()"
+                        (pick)="onPick($event, blockIndex)"
+                      />
+                    </th>
                   }
                 </tr>
               </thead>
@@ -73,7 +98,13 @@ import { WorkedExampleComponent } from './worked-example';
                 @for (row of block.rows; track $index) {
                   <tr>
                     @for (cell of row; track $index) {
-                      <td class="jp">{{ cell }}</td>
+                      <td class="jp">
+                        <app-vocab-text
+                          [text]="cell"
+                          [active]="activeJp()"
+                          (pick)="onPick($event, blockIndex)"
+                        />
+                      </td>
                     }
                   </tr>
                 }
@@ -81,13 +112,25 @@ import { WorkedExampleComponent } from './worked-example';
             </table>
           </div>
           @if (block.caption) {
-            <p class="small dim jp">{{ block.caption }}</p>
+            <p class="small dim jp">
+              <app-vocab-text
+                [text]="block.caption"
+                [active]="activeJp()"
+                (pick)="onPick($event, blockIndex)"
+              />
+            </p>
           }
         }
         @case ('callout') {
           <aside class="callout" [class]="block.tone">
             <strong class="jp">{{ icon(block.tone) }} {{ block.title }}</strong>
-            <div class="jp">{{ block.text }}</div>
+            <div class="jp">
+              <app-vocab-text
+                [text]="block.text"
+                [active]="activeJp()"
+                (pick)="onPick($event, blockIndex)"
+              />
+            </div>
           </aside>
         }
         @case ('example') {
@@ -100,6 +143,15 @@ import { WorkedExampleComponent } from './worked-example';
             />
           </div>
         }
+      }
+
+      @if (definitionFor(blockIndex); as term) {
+        <div class="definition">
+          <app-jp-term [term]="term" />
+          <button class="btn ghost sm close" type="button" (click)="active.set(null)">
+            Close ✕
+          </button>
+        </div>
       }
     }
   `,
@@ -163,6 +215,21 @@ import { WorkedExampleComponent } from './worked-example';
       border-left-color: var(--warn);
       background: var(--warn-soft);
     }
+    .definition {
+      position: relative;
+      margin: 0.2rem 0 1.2rem;
+    }
+    .definition app-jp-term ::ng-deep .term {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      padding-right: 5.5rem;
+    }
+    .definition .close {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.5rem;
+      color: var(--accent);
+    }
     .example {
       border: 1px dashed var(--border);
       border-radius: var(--radius-sm);
@@ -173,6 +240,25 @@ import { WorkedExampleComponent } from './worked-example';
 })
 export class LessonBlocksComponent {
   readonly blocks = input.required<Block[]>();
+
+  /**
+   * The open definition, and which block it was opened from — so the panel
+   * appears next to the word the reader tapped rather than at the end of the
+   * lesson. One panel at a time keeps the page from jumping about.
+   */
+  protected readonly active = signal<{ term: Term; block: number } | null>(null);
+  protected readonly activeJp = computed(() => this.active()?.term.jp ?? null);
+
+  protected onPick(term: Term, block: number): void {
+    this.active.update((current) =>
+      current?.term.jp === term.jp && current.block === block ? null : { term, block },
+    );
+  }
+
+  protected definitionFor(block: number): Term | null {
+    const current = this.active();
+    return current && current.block === block ? current.term : null;
+  }
 
   protected icon(tone: 'tip' | 'warn' | 'exam'): string {
     return tone === 'warn' ? '⚠️' : tone === 'tip' ? '💡' : '🎯';

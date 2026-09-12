@@ -14,11 +14,12 @@ import { ProgressStore } from '../../core/progress.store';
 import { CATEGORY_MAP } from '../../data/categories.data';
 import { Question } from '../../core/models';
 import { PASS_MARK, buildMockExam } from '../../core/quiz.util';
+import { VocabBlockComponent } from '../../shared/vocab-block';
 
 @Component({
   selector: 'app-mock-exam',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, VocabBlockComponent],
   templateUrl: './mock-exam.html',
   styleUrl: './mock-exam.scss',
 })

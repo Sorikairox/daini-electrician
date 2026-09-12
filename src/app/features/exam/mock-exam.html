@@ -104,7 +104,7 @@
       @if (submitted()) {
         <div class="explain" [class.ok]="answers()[index()] === q.answer">
           <strong>Answer: {{ letter(q.answer) }}</strong>
-          <p class="jp">{{ q.explain }}</p>
+          <app-vocab-block class="jp" [text]="q.explain" />
         </div>
       }
 
