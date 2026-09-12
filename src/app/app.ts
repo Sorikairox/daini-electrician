@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 import { ProgressStore } from './core/progress.store';
 import { SettingsStore } from './core/settings.store';
 import { SearchService } from './core/search.service';
@@ -45,6 +46,9 @@ export class App {
   protected readonly offline = signal(typeof navigator !== 'undefined' ? !navigator.onLine : false);
 
   constructor() {
+    // Keep anchor jumps clear of the sticky top bar.
+    inject(ViewportScroller).setOffset([0, 72]);
+
     if (typeof window !== 'undefined') {
       window.addEventListener('online', () => this.offline.set(false));
       window.addEventListener('offline', () => this.offline.set(true));

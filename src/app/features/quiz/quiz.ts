@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  afterRenderEffect,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProgressStore } from '../../core/progress.store';
 import { CATEGORIES } from '../../data/categories.data';
@@ -39,6 +48,15 @@ export class QuizComponent {
     if (!qs) return 0;
     return this.answers().reduce<number>((acc, a, i) => acc + (a === qs[i]?.answer ? 1 : 0), 0);
   });
+
+  private readonly questionCard = viewChild<ElementRef<HTMLElement>>('questionCard');
+
+  constructor() {
+    afterRenderEffect(() => {
+      this.index();
+      this.questionCard()?.nativeElement.scrollIntoView({ block: 'nearest' });
+    });
+  }
 
   protected readonly available = computed(() => {
     const category = this.category();

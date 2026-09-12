@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SettingsStore } from '../../core/settings.store';
 import { ProgressStore } from '../../core/progress.store';
 import { GLOSSARY } from '../../data/glossary.data';
@@ -13,7 +15,11 @@ import { CategoryId } from '../../core/models';
   styleUrl: './glossary.scss',
 })
 export class GlossaryComponent {
+  private readonly route = inject(ActivatedRoute);
   protected readonly settings = inject(SettingsStore);
+
+  /** The term the global search sent us to, so its row can be picked out. */
+  protected readonly highlighted = toSignal(this.route.fragment, { initialValue: null });
   protected readonly progress = inject(ProgressStore);
   protected readonly categories = CATEGORIES;
   protected readonly total = GLOSSARY.length;

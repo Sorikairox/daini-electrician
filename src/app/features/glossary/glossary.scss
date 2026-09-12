@@ -50,6 +50,12 @@ h2 {
   text-align: center;
   color: var(--text-dim);
 }
+.data tr.highlight {
+  background: var(--accent-soft);
+}
+.data tr.highlight .term {
+  color: var(--accent);
+}
 .blurred {
   filter: blur(5px);
   transition: filter 0.15s ease;

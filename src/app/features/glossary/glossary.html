@@ -52,7 +52,7 @@
         </thead>
         <tbody>
           @for (t of group.terms; track t.jp) {
-            <tr [id]="t.jp">
+            <tr [id]="t.jp" [class.highlight]="highlighted() === t.jp">
               <td class="jp term">
                 {{ t.jp }}
                 <button

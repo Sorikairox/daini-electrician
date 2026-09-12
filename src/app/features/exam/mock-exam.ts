@@ -1,10 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
+  afterRenderEffect,
   computed,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProgressStore } from '../../core/progress.store';
@@ -31,6 +34,18 @@ export class MockExamComponent implements OnDestroy {
   protected readonly secondsLeft = signal(120 * 60);
 
   private timer: ReturnType<typeof setInterval> | null = null;
+
+  private readonly questionCard = viewChild<ElementRef<HTMLElement>>('questionCard');
+
+  constructor() {
+    // Moving to another question must not leave the reader looking at the
+    // middle of it. 'nearest' plus scroll-margin-top only moves the page when
+    // the question is actually out from under the sticky bars.
+    afterRenderEffect(() => {
+      this.index();
+      this.questionCard()?.nativeElement.scrollIntoView({ block: 'nearest' });
+    });
+  }
 
   protected readonly current = computed<Question | null>(
     () => this.questions()?.[this.index()] ?? null,

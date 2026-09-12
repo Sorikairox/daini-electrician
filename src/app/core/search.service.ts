@@ -39,7 +39,7 @@ export class SearchService {
           subtitle: `${t.kana} ・ ${t.romaji}`,
           jp: t.jp,
           link: ['/glossary'],
-          fragment: encodeURIComponent(t.jp),
+          fragment: t.jp,
         });
       }
     }

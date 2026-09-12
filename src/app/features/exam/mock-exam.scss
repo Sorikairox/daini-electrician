@@ -31,6 +31,10 @@
   color: var(--bad);
 }
 
+.question {
+  /* clears the sticky page bar plus the sticky exam bar */
+  scroll-margin-top: 7.5rem;
+}
 .question .q {
   font-size: 1.12rem;
   font-weight: 600;

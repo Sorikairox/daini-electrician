@@ -78,7 +78,7 @@
   }
 
   @if (current(); as q) {
-    <div class="card question">
+    <div class="card question" #questionCard>
       <div class="small dim">Question {{ index() + 1 }} / {{ questions()!.length }}</div>
       <p class="q">{{ q.q }}</p>
       @if (q.qJp) {
