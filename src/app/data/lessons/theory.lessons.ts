@@ -41,6 +41,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '求めよ',
+            explain:
+              'The command word at the end of any calculation question: work it out and give the value. Spot it and you know a number is wanted, not a choice of statement.',
             kana: 'もとめよ',
             romaji: 'motomeyo',
             en: '“find / calculate” — the instruction word in every calculation question',
@@ -48,6 +50,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '図のような回路',
+            explain:
+              'The circuit shown in the figure. Standard opening words, telling you the diagram beside the question is the one to work from.',
             kana: 'ずのようなかいろ',
             romaji: 'zu no yō na kairo',
             en: '“the circuit shown in the figure”',
@@ -133,6 +137,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '端子間',
+            explain:
+              'Between the two terminals — the two points you would put a meter across. Questions use it to tell you exactly where to measure.',
             kana: 'たんしかん',
             romaji: 'tanshikan',
             en: 'between the terminals',
@@ -140,6 +146,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '分圧',
+            explain:
+              'When resistances sit in a chain, the supply voltage divides between them in proportion to their size. The biggest resistance takes the biggest share.',
             kana: 'ぶんあつ',
             romaji: 'bun’atsu',
             en: 'voltage division',
@@ -215,6 +223,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '消費電力',
+            explain:
+              'How much power a device actually draws in use. The figure on the nameplate of a heater or a lamp.',
             kana: 'しょうひでんりょく',
             romaji: 'shōhi denryoku',
             en: 'power consumption',
@@ -222,6 +232,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '発熱量',
+            explain:
+              'How much heat something gives out. In a wire it is wasted energy and a fire risk; in a heater it is the whole point.',
             kana: 'はつねつりょう',
             romaji: 'hatsunetsuryō',
             en: 'heat generated',
@@ -370,6 +382,8 @@ export const THEORY_LESSONS: Lesson[] = [
         terms: [
           {
             jp: '星形結線',
+            explain:
+              'The star arrangement of three-phase windings, written this way on Japanese papers. The same thing as スター結線.',
             kana: 'ほしがたけっせん',
             romaji: 'hoshigata kessen',
             en: 'star / Y connection',
@@ -378,6 +392,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '三角結線',
+            explain:
+              'The delta arrangement of three-phase windings, written this way on Japanese papers. The same thing as デルタ結線.',
             kana: 'さんかくけっせん',
             romaji: 'sankaku kessen',
             en: 'delta connection',
@@ -400,6 +416,8 @@ export const THEORY_LESSONS: Lesson[] = [
           },
           {
             jp: '平衡負荷',
+            explain:
+              'A three-phase load drawing the same current on all three phases, as a motor does. It keeps the supply even and makes the arithmetic simple.',
             kana: 'へいこうふか',
             romaji: 'heikō fuka',
             en: 'balanced load',

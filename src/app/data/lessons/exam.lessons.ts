@@ -34,6 +34,8 @@ export const EXAM_LESSONS: Lesson[] = [
         terms: [
           {
             jp: '次のうち',
+            explain:
+              'Among the following. The standard phrase introducing the four answer choices.',
             kana: 'つぎのうち',
             romaji: 'tsugi no uchi',
             en: 'among the following',
@@ -41,6 +43,7 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: '正しいものは',
+            explain: 'Which one is correct. A straightforward question — find the true statement.',
             kana: 'ただしいものは',
             romaji: 'tadashii mono wa',
             en: 'which is correct',
@@ -48,6 +51,8 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: '誤っているものは',
+            explain:
+              'Which one is WRONG. About a third of the paper asks this way, and missing the word costs you the mark even when you know the subject perfectly.',
             kana: 'あやまっているものは',
             romaji: 'ayamatte iru mono wa',
             en: 'which is INCORRECT',
@@ -56,6 +61,8 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: '不適切なものは',
+            explain:
+              'Which one is unsuitable or improper. The same trap as 誤っているもの: you are hunting the bad answer, not the good one.',
             kana: 'ふてきせつなものは',
             romaji: 'futekisetsu na mono wa',
             en: 'which is inappropriate',
@@ -63,6 +70,8 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: '最も',
+            explain:
+              'Most. Usually in 最も適切なもの, the most appropriate — a hint that several answers are defensible and you want the best of them.',
             kana: 'もっとも',
             romaji: 'mottomo',
             en: 'most (e.g. most appropriate)',
@@ -70,6 +79,8 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: '組合せ',
+            explain:
+              'Combination. The answer is a set of items together, so every part of the option you choose has to be right.',
             kana: 'くみあわせ',
             romaji: 'kumiawase',
             en: 'combination',
@@ -77,6 +88,8 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: '施設できない',
+            explain:
+              'May not be installed. The question is asking where a method is forbidden, rather than where it is allowed.',
             kana: 'しせつできない',
             romaji: 'shisetsu dekinai',
             en: 'may not be installed',
@@ -84,6 +97,8 @@ export const EXAM_LESSONS: Lesson[] = [
           },
           {
             jp: 'ただし',
+            explain:
+              'However, or provided that. It introduces the assumption you must apply, and it often overturns what the first sentence implied — so never stop reading at the first full stop.',
             kana: 'ただし',
             romaji: 'tadashi',
             en: 'however / provided that',

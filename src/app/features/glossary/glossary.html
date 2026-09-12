@@ -1,8 +1,9 @@
 <header class="page-head">
   <h1>Glossary <span class="jp dim">用語集</span></h1>
   <p class="dim">
-    {{ total }} exam terms with reading and romaji. Search in English, in Japanese, or in romaji —
-    “setchi”, “せっち” and “earthing” all find 接地工事.
+    {{ total }} exam terms, each with its reading, its romaji and an explanation of what the thing
+    actually is — written for someone who has never worked in the trade. Search in English, in
+    Japanese, or in romaji: “setchi”, “せっち” and “earthing” all find 接地工事.
   </p>
 </header>
 
@@ -26,6 +27,13 @@
   </select>
   <button class="chip" [class.active]="hideEnglish()" (click)="hideEnglish.set(!hideEnglish())">
     {{ hideEnglish() ? 'English hidden' : 'Hide English' }}
+  </button>
+  <button
+    class="chip"
+    [class.active]="showExplanations()"
+    (click)="showExplanations.set(!showExplanations())"
+  >
+    {{ showExplanations() ? 'Explanations shown' : 'Explanations hidden' }}
   </button>
 </div>
 
@@ -65,7 +73,7 @@
                 </button>
               </td>
               <td class="reading">
-                @if (settings.showKana()) {
+                @if (settings.showKana() && t.kana !== t.jp) {
                   <span class="jp">{{ t.kana }}</span>
                 }
                 @if (settings.showRomaji()) {
@@ -74,8 +82,11 @@
               </td>
               <td [class.blurred]="hideEnglish()">
                 <strong>{{ t.en }}</strong>
+                @if (showExplanations() && t.explain) {
+                  <p class="explain">{{ t.explain }}</p>
+                }
                 @if (t.note) {
-                  <div class="small dim">{{ t.note }}</div>
+                  <div class="small dim note">{{ t.note }}</div>
                 }
               </td>
               <td class="box">{{ box(t.jp) }}</td>

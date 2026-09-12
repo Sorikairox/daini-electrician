@@ -7,6 +7,8 @@ import { CIRCUITS } from './circuits.data';
 import { CATEGORY_MAP } from './categories.data';
 import { FORMULAS } from './formulas.data';
 import { usedSymbols } from '../core/notation';
+import { explainFor } from '../core/terms';
+import { Term } from '../core/models';
 
 describe('content integrity', () => {
   it('gives every lesson a unique id and a known category', () => {
@@ -86,5 +88,45 @@ describe('calculation symbols', () => {
   it('gives every formula at least one tappable symbol', () => {
     const bare = FORMULAS.filter((f) => usedSymbols(f.expression, f.symbols ?? []).length === 0);
     expect(bare.map((f) => f.id)).toEqual([]);
+  });
+});
+
+describe('beginner explanations', () => {
+  it('explains every glossary term', () => {
+    const bare = GLOSSARY.filter((t) => !t.explain || t.explain.trim().length === 0);
+    expect(bare.map((t) => t.jp)).toEqual([]);
+  });
+
+  it('writes explanations long enough to actually explain something', () => {
+    const thin = GLOSSARY.filter((t) => (t.explain ?? '').length < 60);
+    expect(thin.map((t) => t.jp)).toEqual([]);
+  });
+
+  it('does not define a term with its own English name', () => {
+    // "ballast: the ballast limits the current" teaches nothing.
+    const circular = GLOSSARY.filter((t) => {
+      const head = (t.explain ?? '').slice(0, 40).toLowerCase();
+      const name = t.en.split(/[(/—]/)[0].trim().toLowerCase();
+      return name.length > 4 && head.startsWith(name);
+    });
+    expect(circular.map((t) => t.jp)).toEqual([]);
+  });
+
+  it('resolves an explanation for every term written inline in a lesson', () => {
+    const unexplained: string[] = [];
+    for (const lesson of LESSONS) {
+      for (const block of lesson.blocks) {
+        if (block.kind !== 'terms') continue;
+        for (const term of block.terms as Term[]) {
+          if (!explainFor(term)) unexplained.push(`${lesson.id}: ${term.jp}`);
+        }
+      }
+    }
+    expect(unexplained).toEqual([]);
+  });
+
+  it('uses typographic apostrophes so the data stays single-quotable', () => {
+    const bad = GLOSSARY.filter((t) => (t.explain ?? '').includes("'"));
+    expect(bad.map((t) => t.jp)).toEqual([]);
   });
 });

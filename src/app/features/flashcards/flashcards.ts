@@ -4,6 +4,7 @@ import { SettingsStore } from '../../core/settings.store';
 import { GLOSSARY } from '../../data/glossary.data';
 import { CATEGORIES } from '../../data/categories.data';
 import { CategoryId, Term } from '../../core/models';
+import { explainFor } from '../../core/terms';
 
 type Direction = 'jp-en' | 'en-jp';
 
@@ -46,6 +47,11 @@ export class FlashcardsComponent {
   });
 
   protected readonly current = computed<Term | null>(() => this.deck()[0] ?? null);
+
+  protected readonly explanation = computed(() => {
+    const term = this.current();
+    return term ? explainFor(term) : null;
+  });
 
   protected readonly boxCounts = computed(() => {
     const cards = this.progress.cards();

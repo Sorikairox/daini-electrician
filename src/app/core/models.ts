@@ -14,6 +14,12 @@ export interface Term {
   romaji: string;
   /** Plain-English meaning */
   en: string;
+  /**
+   * What the thing actually is, for a reader with no trade background: what it
+   * does, and where you meet it. Terms that also appear in the glossary may
+   * leave this out and inherit the glossary wording.
+   */
+  explain?: string;
   /** Optional extra note / mnemonic / gotcha, in English */
   note?: string;
   /** Category id used for filtering (see CATEGORIES) */

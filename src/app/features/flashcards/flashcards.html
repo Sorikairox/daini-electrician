@@ -42,13 +42,16 @@
       <div class="front jp big">{{ term.jp }}</div>
       @if (revealed()) {
         <div class="back">
-          @if (settings.showKana()) {
+          @if (settings.showKana() && term.kana !== term.jp) {
             <div class="jp reading">{{ term.kana }}</div>
           }
           @if (settings.showRomaji()) {
             <div class="romaji dim">{{ term.romaji }}</div>
           }
           <div class="meaning">{{ term.en }}</div>
+          @if (explanation(); as text) {
+            <p class="explain">{{ text }}</p>
+          }
           @if (term.note) {
             <p class="small dim">{{ term.note }}</p>
           }
@@ -61,11 +64,14 @@
       @if (revealed()) {
         <div class="back">
           <div class="jp big">{{ term.jp }}</div>
-          @if (settings.showKana()) {
+          @if (settings.showKana() && term.kana !== term.jp) {
             <div class="jp reading">{{ term.kana }}</div>
           }
           @if (settings.showRomaji()) {
             <div class="romaji dim">{{ term.romaji }}</div>
+          }
+          @if (explanation(); as text) {
+            <p class="explain">{{ text }}</p>
           }
           @if (term.note) {
             <p class="small dim">{{ term.note }}</p>

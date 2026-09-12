@@ -15,6 +15,8 @@ export const INSTALL_LESSONS: Lesson[] = [
         terms: [
           {
             jp: '展開した場所',
+            explain:
+              'An open location — the wiring is in plain view and you can walk up to it, as in a garage or a plant room. The least restricted case in the rules.',
             kana: 'てんかいしたばしょ',
             romaji: 'tenkai shita basho',
             en: 'open / exposed location',
@@ -22,6 +24,8 @@ export const INSTALL_LESSONS: Lesson[] = [
           },
           {
             jp: '点検できる隠ぺい場所',
+            explain:
+              'Hidden from sight but reachable afterwards, such as above a ceiling with an access hatch. More methods are allowed here than where nobody can ever get back in.',
             kana: 'てんけんできるいんぺいばしょ',
             romaji: 'tenken dekiru inpei basho',
             en: 'concealed but accessible location',
@@ -29,6 +33,8 @@ export const INSTALL_LESSONS: Lesson[] = [
           },
           {
             jp: '点検できない隠ぺい場所',
+            explain:
+              'Sealed in for good — buried in a wall, cast into concrete. Only the most robust methods are permitted, because no one will ever inspect it again.',
             kana: 'てんけんできないいんぺいばしょ',
             romaji: 'tenken dekinai inpei basho',
             en: 'concealed and inaccessible location',
@@ -36,6 +42,8 @@ export const INSTALL_LESSONS: Lesson[] = [
           },
           {
             jp: '乾燥した場所',
+            explain:
+              'A normally dry location. Several rules relax here, including some of the cases where earthing may be left out.',
             kana: 'かんそうしたばしょ',
             romaji: 'kansō shita basho',
             en: 'dry location',

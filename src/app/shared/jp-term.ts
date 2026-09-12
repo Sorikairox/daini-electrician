@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { SettingsStore } from '../core/settings.store';
 import { Term } from '../core/models';
+import { explainFor } from '../core/terms';
 
 /**
  * Shows a Japanese exam term with its reading, romaji and English meaning,
@@ -22,13 +23,16 @@ import { Term } from '../core/models';
           🔊
         </button>
       </div>
-      @if (settings.showKana()) {
+      @if (settings.showKana() && term().kana !== term().jp) {
         <div class="kana jp dim small">{{ term().kana }}</div>
       }
       @if (settings.showRomaji()) {
         <div class="romaji dim small">{{ term().romaji }}</div>
       }
       <div class="en">{{ term().en }}</div>
+      @if (explanation(); as text) {
+        <p class="explain">{{ text }}</p>
+      }
       @if (term().note) {
         <div class="note small dim">{{ term().note }}</div>
       }
@@ -67,7 +71,12 @@ import { Term } from '../core/models';
     }
     .en {
       margin-top: 0.35rem;
-      font-weight: 550;
+      font-weight: 650;
+    }
+    .explain {
+      margin: 0.3rem 0 0;
+      font-size: 0.88rem;
+      line-height: 1.55;
     }
     .note {
       margin-top: 0.25rem;
@@ -77,4 +86,5 @@ import { Term } from '../core/models';
 export class JpTermComponent {
   readonly term = input.required<Term>();
   protected readonly settings = inject(SettingsStore);
+  protected readonly explanation = computed(() => explainFor(this.term()));
 }

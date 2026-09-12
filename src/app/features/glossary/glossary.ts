@@ -27,6 +27,7 @@ export class GlossaryComponent {
   protected readonly query = signal('');
   protected readonly category = signal<CategoryId | 'all'>('all');
   protected readonly hideEnglish = signal(false);
+  protected readonly showExplanations = signal(true);
 
   protected readonly terms = computed(() => {
     const q = normalise(this.query().trim());

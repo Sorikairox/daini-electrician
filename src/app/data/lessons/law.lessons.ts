@@ -14,6 +14,8 @@ export const LAW_LESSONS: Lesson[] = [
         terms: [
           {
             jp: '電気工作物',
+            explain:
+              'The legal umbrella term for electrical installations and equipment of every size, from a house to a power station. The law sorts it into categories, and the category decides who may work on it.',
             kana: 'でんきこうさくぶつ',
             romaji: 'denki kōsakubutsu',
             en: 'electrical installation / works',
@@ -28,6 +30,8 @@ export const LAW_LESSONS: Lesson[] = [
           },
           {
             jp: '事業用電気工作物',
+            explain:
+              'Installations that are not domestic in scale: anything with a high-voltage intake, plus certain generating plant. Outside the reach of a second-class licence.',
             kana: 'じぎょうようでんきこうさくぶつ',
             romaji: 'jigyō-yō denki kōsakubutsu',
             en: 'business-use installation',
@@ -42,6 +46,8 @@ export const LAW_LESSONS: Lesson[] = [
           },
           {
             jp: '受電',
+            explain:
+              'Taking the supply in from the utility, at a stated voltage. Whether you receive at 600 V or less is exactly what decides the category of the installation.',
             kana: 'じゅでん',
             romaji: 'juden',
             en: 'to receive power (at a stated voltage)',

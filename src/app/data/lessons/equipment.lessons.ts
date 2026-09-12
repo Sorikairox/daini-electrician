@@ -22,6 +22,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: '極数',
+            explain:
+              'How many magnetic poles a motor has, built into its windings. Together with the supply frequency it fixes the speed: more poles means slower.',
             kana: 'きょくすう',
             romaji: 'kyokusū',
             en: 'number of poles',
@@ -29,6 +31,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: '回転速度',
+            explain:
+              'How fast the shaft actually turns, in revolutions per minute. Always a little less than the speed of the rotating field.',
             kana: 'かいてんそくど',
             romaji: 'kaiten sokudo',
             en: 'rotational speed [min⁻¹]',
@@ -36,6 +40,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: '始動電流',
+            explain:
+              'The surge a motor pulls the instant it starts, several times its running current. Big enough to dim the lights, which is why large motors use gentler starting methods.',
             kana: 'しどうでんりゅう',
             romaji: 'shidō denryū',
             en: 'starting current',
@@ -43,6 +49,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: '逆回転',
+            explain:
+              'Making the motor run the other way. On three-phase you simply swap any two of the three supply leads.',
             kana: 'ぎゃくかいてん',
             romaji: 'gyaku kaiten',
             en: 'reverse rotation',
@@ -124,6 +132,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: '全光束',
+            explain:
+              'The total light a lamp puts out in all directions, measured in lumens. It is the honest way to compare an LED with a filament bulb, rather than comparing watts.',
             kana: 'ぜんこうそく',
             romaji: 'zenkōsoku',
             en: 'luminous flux [lm]',
@@ -187,6 +197,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: 'ほたるスイッチ',
+            explain:
+              'The everyday nickname for the switch with a small lamp that glows while it is off, so you can find it in the dark. Hotaru means firefly.',
             kana: 'ほたるスイッチ',
             romaji: 'hotaru suitchi',
             en: 'locator switch (glows when OFF)',
@@ -195,6 +207,8 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
           },
           {
             jp: 'パイロットランプ',
+            explain:
+              'A small indicator lamp beside a switch, showing the state of something you cannot see from there. It can be wired to glow always, with the load, or against it.',
             kana: 'パイロットランプ',
             romaji: 'pairotto ranpu',
             en: 'pilot lamp (glows when ON)',

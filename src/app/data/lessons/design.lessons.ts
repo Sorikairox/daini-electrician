@@ -44,6 +44,8 @@ export const DESIGN_LESSONS: Lesson[] = [
           },
           {
             jp: '欠相',
+            explain:
+              'One conductor of a multi-wire supply going open circuit — broken, or a terminal come loose. On a single-phase three-wire supply, losing the neutral is the dangerous case, because appliances then see far more than 100 V.',
             kana: 'けっそう',
             romaji: 'kessō',
             en: 'loss of a phase / open conductor',
@@ -113,6 +115,8 @@ export const DESIGN_LESSONS: Lesson[] = [
           },
           {
             jp: '1線当たり',
+            explain:
+              'Per single conductor. Cable resistance is quoted this way, so you then multiply by however many conductors actually carry the current.',
             kana: 'いっせんあたり',
             romaji: 'issen atari',
             en: 'per conductor',
@@ -120,6 +124,8 @@ export const DESIGN_LESSONS: Lesson[] = [
           },
           {
             jp: '線路',
+            explain:
+              'The cable run itself, considered as something with resistance that loses voltage and wastes power along the way.',
             kana: 'せんろ',
             romaji: 'senro',
             en: 'the line / feeder run',
@@ -285,6 +291,8 @@ export const DESIGN_LESSONS: Lesson[] = [
           },
           {
             jp: '電動機',
+            explain:
+              'A motor — anything turning electricity into rotation. In this syllabus it usually means a three-phase induction motor, and it matters because motors pull a big surge when starting.',
             kana: 'でんどうき',
             romaji: 'dendōki',
             en: 'motor',
@@ -292,6 +300,8 @@ export const DESIGN_LESSONS: Lesson[] = [
           },
           {
             jp: '定格電流の合計',
+            explain:
+              'The nameplate currents of all the loads added together. It is the starting point for sizing a feeder, before any allowance for motor starting.',
             kana: 'ていかくでんりゅうのごうけい',
             romaji: 'teikaku denryū no gōkei',
             en: 'total of the rated currents',
