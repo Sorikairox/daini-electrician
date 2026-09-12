@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormulaViewComponent } from '../../shared/formula-view';
 import { FORMULAS } from '../../data/formulas.data';
 import { CATEGORY_MAP } from '../../data/categories.data';
 
 @Component({
   selector: 'app-formulas',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormulaViewComponent],
   template: `
     <header class="page-head">
       <h1>Formula sheet <span class="jp dim">公式集</span></h1>
@@ -21,13 +23,8 @@ import { CATEGORY_MAP } from '../../data/categories.data';
             <strong>{{ f.title }}</strong>
             <span class="tag">{{ label(f.category) }}</span>
           </div>
-          <div class="jp dim small">{{ f.titleJp }}</div>
-          <pre>{{ f.expression }}</pre>
-          <ul class="small dim">
-            @for (w of f.where; track $index) {
-              <li class="jp">{{ w }}</li>
-            }
-          </ul>
+          <div class="jp dim small titleJp">{{ f.titleJp }}</div>
+          <app-formula [expression]="f.expression" [symbols]="f.symbols ?? []" [where]="f.where" />
           <p class="small note jp">{{ f.note }}</p>
         </div>
       }
@@ -75,27 +72,22 @@ import { CATEGORY_MAP } from '../../data/categories.data';
       display: grid;
       gap: 0.2rem;
       align-content: start;
+      min-width: 0;
     }
     .head {
       justify-content: space-between;
       align-items: baseline;
     }
-    pre {
-      margin: 0.5rem 0 0.4rem;
+    .titleJp {
+      margin-bottom: 0.5rem;
+    }
+    app-formula {
       background: var(--surface-2);
       border-radius: var(--radius-sm);
       padding: 0.7rem 0.8rem;
-      font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
-      font-size: 0.95rem;
-      white-space: pre-wrap;
-      line-height: 1.7;
-    }
-    ul {
-      margin: 0 0 0.3rem;
-      padding-left: 1.1rem;
     }
     .note {
-      margin: 0.2rem 0 0;
+      margin: 0.6rem 0 0;
     }
     .numbers {
       margin-top: 2rem;

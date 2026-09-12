@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Block } from '../core/models';
 import { JpTermComponent } from './jp-term';
+import { FormulaViewComponent } from './formula-view';
+import { WorkedExampleComponent } from './worked-example';
 
 /** Renders the structured content blocks of a lesson. */
 @Component({
   selector: 'app-lesson-blocks',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JpTermComponent],
+  imports: [JpTermComponent, FormulaViewComponent, WorkedExampleComponent],
   template: `
     @for (block of blocks(); track $index) {
       @switch (block.kind) {
@@ -49,15 +51,12 @@ import { JpTermComponent } from './jp-term';
         }
         @case ('formula') {
           <figure class="formula">
-            <pre class="jp">{{ block.latexish }}</pre>
-            <figcaption class="jp small dim">{{ block.caption }}</figcaption>
-            @if (block.where) {
-              <ul class="where small dim">
-                @for (w of block.where; track $index) {
-                  <li class="jp">{{ w }}</li>
-                }
-              </ul>
-            }
+            <app-formula
+              [expression]="block.latexish"
+              [symbols]="block.symbols ?? []"
+              [caption]="block.caption"
+              [where]="block.where ?? []"
+            />
           </figure>
         }
         @case ('table') {
@@ -93,13 +92,12 @@ import { JpTermComponent } from './jp-term';
         }
         @case ('example') {
           <div class="example">
-            <div class="q jp"><span class="tag">Example</span> {{ block.question }}</div>
-            <ol>
-              @for (s of block.steps; track $index) {
-                <li class="jp">{{ s }}</li>
-              }
-            </ol>
-            <div class="a jp"><strong>Answer:</strong> {{ block.answer }}</div>
+            <app-worked-example
+              [question]="block.question"
+              [steps]="block.steps"
+              [answer]="block.answer"
+              [symbols]="block.symbols ?? []"
+            />
           </div>
         }
       }
@@ -136,21 +134,11 @@ import { JpTermComponent } from './jp-term';
     }
     .formula {
       margin: 0 0 1.2rem;
+      min-width: 0;
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 0.8rem 1rem;
-    }
-    .formula pre {
-      margin: 0 0 0.4rem;
-      font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
-      font-size: 1rem;
-      white-space: pre-wrap;
-      line-height: 1.7;
-    }
-    .where {
-      margin: 0.4rem 0 0;
-      padding-left: 1.1rem;
     }
     .callout {
       border-left: 4px solid var(--accent);
@@ -180,15 +168,6 @@ import { JpTermComponent } from './jp-term';
       border-radius: var(--radius-sm);
       padding: 0.8rem 1rem;
       margin: 0 0 1.2rem;
-    }
-    .example .q {
-      margin-bottom: 0.5rem;
-    }
-    .example ol {
-      margin-bottom: 0.5rem;
-    }
-    .example .a {
-      color: var(--good);
     }
   `,
 })

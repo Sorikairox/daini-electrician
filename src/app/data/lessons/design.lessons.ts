@@ -1,4 +1,5 @@
 import { Lesson } from '../../core/models';
+import { N } from '../notation.data';
 
 export const DESIGN_LESSONS: Lesson[] = [
   {
@@ -59,7 +60,7 @@ export const DESIGN_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'I_neutral = | I₁ − I₂ |',
         caption: 'Neutral current 中性線に流れる電流',
-        where: ['I₁, I₂: the two 100 V load currents'],
+        symbols: [N.IN, N.I1, N.I2],
       },
       {
         kind: 'callout',
@@ -79,8 +80,9 @@ export const DESIGN_LESSONS: Lesson[] = [
         kind: 'example',
         question:
           'A 1φ3W circuit supplies 12 A on one side and 8 A on the other. What current flows in the neutral?',
-        steps: ['|12 − 8| = 4 A.'],
+        steps: ['I_neutral = | I₁ − I₂ | = | 12 − 8 | = 4 A'],
         answer: '4 A',
+        symbols: [N.s1p3w, N.IN, N.uA],
       },
     ],
   },
@@ -141,7 +143,8 @@ export const DESIGN_LESSONS: Lesson[] = [
         latexish:
           '1φ2W: e = 35.6 L I / (1000 A)\n1φ3W: e = 17.8 L I / (1000 A)\n3φ3W: e = 30.8 L I / (1000 A)',
         caption: 'Drop directly from length and conductor area',
-        where: ['L: one-way length [m]', 'A: conductor area [mm²]'],
+        symbols: [N.s1p2w, N.s1p3w, N.s3p3w, N.e, N.Llength, N.I, N.Larea],
+        where: ['A here is the conductor area in mm², not amperes.'],
       },
       {
         kind: 'callout',
@@ -155,6 +158,7 @@ export const DESIGN_LESSONS: Lesson[] = [
           '1φ2W, 100 V, current 10 A, one-way length 20 m, conductor 2.0 mm² (r = 0.1 Ω per conductor for the run). Find the voltage drop.',
         steps: ['e = 2 × I × r = 2 × 10 × 0.1.', '= 2 V, so the load sees 98 V.'],
         answer: '2 V',
+        symbols: [N.s1p2w, N.e, N.I, N.r1, N.uV, N.uA, N.uOhm],
       },
     ],
   },
@@ -197,8 +201,9 @@ export const DESIGN_LESSONS: Lesson[] = [
       {
         kind: 'example',
         question: '1.6 mm wires, 4 in one conduit. Allowable current?',
-        steps: ['27 A × 0.63 = 17.01 A.', 'Round down → 17 A.'],
+        steps: ['I_allow = I_base × k = 27 A × 0.63', '= 17.01 A, rounded down to 17 A'],
         answer: '17 A',
+        symbols: [N.Iallow, N.Ibase, N.k, N.uA],
       },
       {
         kind: 'callout',
@@ -299,6 +304,7 @@ export const DESIGN_LESSONS: Lesson[] = [
         latexish:
           'I_M ≤ I_H        → I_W ≥ I_M + I_H\nI_M > I_H, I_M ≤ 50 A → I_W ≥ 1.25 I_M + I_H\nI_M > I_H, I_M > 50 A → I_W ≥ 1.1 I_M + I_H',
         caption: 'Required feeder ampacity 幹線の許容電流',
+        symbols: [N.IM, N.IH, N.IW, N.uA],
         where: [
           'I_M: total motor current',
           'I_H: total current of other loads',
@@ -309,16 +315,19 @@ export const DESIGN_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'I_B ≤ 3 I_M + I_H   and   I_B ≤ 2.5 I_W  → take the smaller',
         caption: 'Feeder overcurrent device rating 過電流遮断器の定格',
+        symbols: [N.IB, N.IM, N.IH, N.IW],
       },
       {
         kind: 'example',
         question:
           'Motors total 30 A, heaters total 10 A. Find the minimum feeder ampacity and the maximum breaker rating.',
         steps: [
-          'I_M (30) > I_H (10) and I_M ≤ 50 A → I_W ≥ 1.25 × 30 + 10 = 47.5 A.',
-          'Breaker: 3 × 30 + 10 = 100 A, and 2.5 × 47.5 = 118.75 A → the smaller is 100 A.',
+          'I_M (30) > I_H (10) and I_M ≤ 50 A → I_W ≥ 1.25 × 30 + 10 = 47.5 A',
+          'I_B ≤ 3 I_M + I_H = 3 × 30 + 10 = 100 A',
+          'I_B ≤ 2.5 I_W = 2.5 × 47.5 = 118.75 A → take the smaller, 100 A',
         ],
         answer: 'Feeder ≥ 47.5 A; breaker ≤ 100 A',
+        symbols: [N.IM, N.IH, N.IW, N.IB, N.uA],
       },
       {
         kind: 'callout',

@@ -47,6 +47,29 @@ export interface Category {
   icon: string;
 }
 
+/* ----------------------------------------------------------------- notation */
+
+/**
+ * One symbol used in a calculation — "I", "cosθ", "I_M", "1φ3W".
+ * Attached to the formula or worked example it appears in, so that the same
+ * letter can mean different things in different places (L is length in
+ * R = ρL/A but inductance in X_L = 2πfL).
+ */
+export interface SymbolDef {
+  /** Exactly as it is written in the expression. */
+  token: string;
+  /** What it stands for, in plain English. */
+  en: string;
+  /** The Japanese exam term, when there is one. */
+  jp?: string;
+  kana?: string;
+  romaji?: string;
+  /** The unit it is measured in, spelled out. */
+  unit?: string;
+  /** Anything else worth knowing at a glance. */
+  note?: string;
+}
+
 /* ------------------------------------------------------------------ lessons */
 
 export type Block =
@@ -54,10 +77,24 @@ export type Block =
   | { kind: 'h'; text: string; jp?: string }
   | { kind: 'list'; items: string[]; ordered?: boolean }
   | { kind: 'terms'; terms: Term[] }
-  | { kind: 'formula'; latexish: string; caption: string; where?: string[] }
+  | {
+      kind: 'formula';
+      latexish: string;
+      caption: string;
+      /** Free-form notes shown under the formula. */
+      where?: string[];
+      /** Symbols the reader can tap for a definition. */
+      symbols?: SymbolDef[];
+    }
   | { kind: 'table'; head: string[]; rows: string[][]; caption?: string }
   | { kind: 'callout'; tone: 'tip' | 'warn' | 'exam'; title: string; text: string }
-  | { kind: 'example'; question: string; steps: string[]; answer: string };
+  | {
+      kind: 'example';
+      question: string;
+      steps: string[];
+      answer: string;
+      symbols?: SymbolDef[];
+    };
 
 export interface Lesson {
   id: string;
@@ -152,7 +189,10 @@ export interface Formula {
   title: string;
   titleJp: string;
   expression: string;
+  /** Free-form notes shown under the formula. */
   where: string[];
+  /** Symbols the reader can tap for a definition. */
+  symbols?: SymbolDef[];
   note: string;
   category: CategoryId;
 }

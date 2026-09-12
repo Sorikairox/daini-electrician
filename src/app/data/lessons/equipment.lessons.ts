@@ -1,4 +1,5 @@
 import { Lesson } from '../../core/models';
+import { N } from '../notation.data';
 
 export const EQUIPMENT_LESSONS: Lesson[] = [
   {
@@ -53,7 +54,7 @@ export const EQUIPMENT_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'N_s = 120 f / p      N = N_s (1 − s)',
         caption: 'Synchronous speed and slip',
-        where: ['f: frequency [Hz]', 'p: poles 極数', 's: slip すべり'],
+        symbols: [N.Ns, N.Nspeed, N.f, N.poles, N.slip],
       },
       {
         kind: 'table',

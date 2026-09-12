@@ -5,6 +5,8 @@ import { GLOSSARY } from './glossary.data';
 import { SYMBOLS } from './symbols.data';
 import { CIRCUITS } from './circuits.data';
 import { CATEGORY_MAP } from './categories.data';
+import { FORMULAS } from './formulas.data';
+import { usedSymbols } from '../core/notation';
 
 describe('content integrity', () => {
   it('gives every lesson a unique id and a known category', () => {
@@ -43,5 +45,46 @@ describe('content integrity', () => {
         expect(ids.has(edge.to)).toBe(true);
       }
     }
+  });
+});
+
+describe('calculation symbols', () => {
+  it('only declares symbols that really appear in the expression', () => {
+    const unused: string[] = [];
+
+    for (const f of FORMULAS) {
+      const shown = new Set(usedSymbols(f.expression, f.symbols ?? []).map((s) => s.token));
+      for (const symbol of f.symbols ?? []) {
+        if (!shown.has(symbol.token)) unused.push(`formula ${f.id}: ${symbol.token}`);
+      }
+    }
+
+    for (const lesson of LESSONS) {
+      for (const block of lesson.blocks) {
+        if (block.kind === 'formula') {
+          const shown = new Set(
+            usedSymbols(block.latexish, block.symbols ?? []).map((s) => s.token),
+          );
+          for (const symbol of block.symbols ?? []) {
+            if (!shown.has(symbol.token))
+              unused.push(`${lesson.id}/${block.caption}: ${symbol.token}`);
+          }
+        }
+        if (block.kind === 'example') {
+          const body = [block.question, ...block.steps, block.answer].join(' ');
+          const shown = new Set(usedSymbols(body, block.symbols ?? []).map((s) => s.token));
+          for (const symbol of block.symbols ?? []) {
+            if (!shown.has(symbol.token)) unused.push(`${lesson.id}/example: ${symbol.token}`);
+          }
+        }
+      }
+    }
+
+    expect(unused).toEqual([]);
+  });
+
+  it('gives every formula at least one tappable symbol', () => {
+    const bare = FORMULAS.filter((f) => usedSymbols(f.expression, f.symbols ?? []).length === 0);
+    expect(bare.map((f) => f.id)).toEqual([]);
   });
 });

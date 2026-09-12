@@ -1,4 +1,5 @@
 import { Lesson } from '../../core/models';
+import { N } from '../notation.data';
 
 export const THEORY_LESSONS: Lesson[] = [
   {
@@ -58,7 +59,7 @@ export const THEORY_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'V = I × R',
         caption: 'Ohm’s law オームの法則',
-        where: ['V: voltage [V]', 'I: current [A]', 'R: resistance [Ω]'],
+        symbols: [N.V, N.I, N.R],
       },
       { kind: 'h', text: 'Resistance of a conductor', jp: '電線の抵抗' },
       {
@@ -69,12 +70,7 @@ export const THEORY_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'R = ρ L / A ,  A = π D² / 4',
         caption: 'Resistance from resistivity',
-        where: [
-          'ρ (抵抗率): resistivity',
-          'L (長さ): length [m]',
-          'A (断面積): area [mm²]',
-          'D (直径): diameter [mm]',
-        ],
+        symbols: [N.R, N.rho, N.Llength, N.Larea, N.pi, N.D],
       },
       {
         kind: 'callout',
@@ -92,6 +88,7 @@ export const THEORY_LESSONS: Lesson[] = [
           '8 × 2 ÷ 4 = 4 Ω.',
         ],
         answer: '4 Ω',
+        symbols: [N.uOhm],
       },
       { kind: 'h', text: 'Reading the answer choices', jp: '選択肢の読み方' },
       {
@@ -154,6 +151,7 @@ export const THEORY_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'Series:  R = R₁ + R₂ + R₃\nParallel: 1/R = 1/R₁ + 1/R₂  →  R = R₁R₂ / (R₁ + R₂)',
         caption: 'Combined resistance 合成抵抗',
+        symbols: [N.R],
       },
       {
         kind: 'list',
@@ -173,6 +171,7 @@ export const THEORY_LESSONS: Lesson[] = [
           'I = V / R = 100 / 30 ≈ 3.33 A.',
         ],
         answer: 'About 3.3 A',
+        symbols: [N.R, N.I, N.V, N.uOhm, N.uA, N.uV],
       },
       {
         kind: 'callout',
@@ -234,12 +233,14 @@ export const THEORY_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'P = V I = I² R = V² / R\nW = P t   [W·s = J]   1 kWh = 3600 kJ',
         caption: 'Power and energy',
+        symbols: [N.P, N.V, N.I, N.R, N.Penergy, N.t, N.uJ, N.ukWh, N.ukJ],
       },
       {
         kind: 'example',
         question: 'A 100 V, 1 kW heater runs for 30 minutes. How much heat does it produce in kJ?',
         steps: ['Energy = 1000 W × 1800 s = 1 800 000 J.', '= 1800 kJ.'],
         answer: '1800 kJ',
+        symbols: [N.uV, N.ukW, N.ukJ, N.uJ, N.uW],
       },
       {
         kind: 'callout',
@@ -307,8 +308,23 @@ export const THEORY_LESSONS: Lesson[] = [
       {
         kind: 'formula',
         latexish:
-          'V_rms = V_peak / √2 ≈ 0.707 V_peak\nX_L = 2πfL   X_C = 1/(2πfC)\nZ = √(R² + X²)   cosθ = R / Z',
+          'V_rms = V_peak / √2 ≈ 0.707 V_peak\nX_L = 2 π f L     X_C = 1 / (2 π f C)\nZ = √(R² + X²)     cosθ = R / Z',
         caption: 'AC quantities',
+        symbols: [
+          N.Vrms,
+          N.Vpeak,
+          N.root2,
+          N.XL,
+          N.XC,
+          N.pi,
+          N.f,
+          N.Lind,
+          N.C,
+          N.Z,
+          N.R,
+          N.X,
+          N.cos,
+        ],
       },
       {
         kind: 'table',
@@ -331,6 +347,7 @@ export const THEORY_LESSONS: Lesson[] = [
           'cosθ = 8/10 = 0.8 → P = VI cosθ = 100 × 10 × 0.8 = 800 W (or I²R = 10²×8).',
         ],
         answer: 'I = 10 A, P = 800 W',
+        symbols: [N.R, N.XL, N.Z, N.I, N.V, N.P, N.cos, N.uOhm, N.uA, N.uV, N.uW],
       },
       {
         kind: 'callout',
@@ -403,17 +420,19 @@ export const THEORY_LESSONS: Lesson[] = [
         kind: 'formula',
         latexish: 'P = √3 × V × I × cosθ',
         caption: 'Three-phase power (line values, either connection)',
+        symbols: [N.P, N.root3, N.V, N.I, N.cos],
       },
       {
         kind: 'example',
         question:
           'A balanced star load of 10 Ω per phase is fed from 200 V (line-to-line). Find the line current.',
         steps: [
-          'Phase voltage = 200 / √3 ≈ 115.5 V.',
-          'Phase current = 115.5 / 10 ≈ 11.5 A.',
-          'In star, line current = phase current ≈ 11.5 A.',
+          'V_phase = V_line / √3 = 200 / 1.73 ≈ 115.5 V',
+          'I_phase = V_phase / R = 115.5 / 10 ≈ 11.5 A',
+          'In a star connection I_line = I_phase, so the line current is about 11.5 A.',
         ],
         answer: 'About 11.5 A',
+        symbols: [N.Vline, N.Vphase, N.Iline, N.Iphase, N.root3, N.R, N.uOhm, N.uA, N.uV],
       },
       {
         kind: 'callout',
