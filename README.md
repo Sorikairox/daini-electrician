@@ -40,12 +40,50 @@ Japanese.
 npm install
 npm start          # dev server on http://localhost:4200
 npm run build      # production build into dist/
+npm run build:pages # production build laid out for GitHub Pages
 npm test           # unit tests (vitest)
 ```
 
 The service worker only runs in a production build, so test offline behaviour
 with `npm run build` and a static server over the `dist/daini-electrician/browser`
 folder.
+
+## Deployment
+
+`.github/workflows/ci.yml` runs on every push and pull request:
+
+1. **Check and build** — `npm ci`, Prettier check, unit tests, then an
+   Angular build with `--base-href "/<repo-name>/"` (a GitHub Pages project
+   site is served from a subdirectory, not the domain root), followed by
+   `scripts/prepare-pages.mjs`.
+2. **Deploy to GitHub Pages** — runs only for pushes to the repository's
+   **default branch**, and publishes the artifact built in step 1.
+
+`scripts/prepare-pages.mjs` adds two things GitHub Pages needs:
+
+- `404.html`, a copy of `index.html`. Pages has no SPA rewrite, so a deep link
+  such as `/daini-electrician/lessons/fukusenzu` would otherwise 404; serving
+  index.html as the 404 page lets the Angular router take over. (After the
+  first visit the service worker answers navigations itself.)
+- `.nojekyll`, so Jekyll does not strip files beginning with an underscore.
+
+### One-time setup
+
+GitHub Pages has to be switched on for the repository before the first deploy
+can succeed: **Settings → Pages → Build and deployment → Source: GitHub
+Actions**. No branch or token needs configuring; the workflow requests the
+`pages: write` and `id-token: write` permissions it needs for itself.
+
+The site then appears at `https://<owner>.github.io/<repo>/`.
+
+### Building it the same way locally
+
+```bash
+npm run build:pages   # base href /daini-electrician/ + 404.html + .nojekyll
+```
+
+Serve the parent of `dist/daini-electrician/browser` under a `/daini-electrician/`
+path to reproduce the deployed layout exactly.
 
 ## Tech
 

@@ -1,0 +1,66 @@
+name: CI / Deploy to GitHub Pages
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Least privilege by default; the deploy job widens it for itself only.
+permissions:
+  contents: read
+
+# One run per ref. Pages deployments are not cancelled mid-flight.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Check and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Unit tests
+        run: npm run test:ci
+
+      # The site is served from https://<owner>.github.io/<repo>/, so the base
+      # href has to match the repository name rather than "/".
+      - name: Build
+        run: npx ng build --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Add the GitHub Pages SPA fallback
+        run: node scripts/prepare-pages.mjs
+
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/daini-electrician/browser
+
+  deploy:
+    name: Deploy to GitHub Pages
+    # Only the default branch publishes; every other branch and PR just builds.
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:pages": "ng build --base-href /daini-electrician/ && node scripts/prepare-pages.mjs",
+    "test:ci": "ng test --watch=false",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\" \"*.{json,md}\" \"scripts/*.mjs\""
   },
   "private": true,
   "packageManager": "npm@10.9.7",
